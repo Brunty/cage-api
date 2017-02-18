@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Api\Output\RandomCage\SingleImage;
+namespace App\Api\Presentation\RandomCage\SingleImage\Output;
 
-use App\Api\Output\Output;
 use App\Domain\Model\Image;
 
 final class JsonOutput

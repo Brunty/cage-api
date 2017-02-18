@@ -5,6 +5,7 @@ namespace App\Api\Responder\RandomCage;
 use App\Api\Negotiator\UnavailableContentTypeException;
 use App\Api\Output\RandomCage\SingleImage\JsonOutput;
 use App\Api\Output\RandomCage\SingleImage\XmlOutput;
+use App\Api\Presentation\RandomCage\SingleImage\Creator;
 use App\Domain\Model\Image;
 use App\Api\Negotiator\AcceptHeaderNegotiator;
 use Psr\Http\Message\ResponseInterface;
@@ -22,11 +23,16 @@ final class SingleImageResponder
      * @var array
      */
     private $availableTypes;
+    /**
+     * @var Creator
+     */
+    private $creator;
 
-    public function __construct(AcceptHeaderNegotiator $negotiator, array $availableTypes = [])
+    public function __construct(Creator $creator, AcceptHeaderNegotiator $negotiator, array $availableTypes = [])
     {
         $this->negotiator = $negotiator;
         $this->availableTypes = $availableTypes;
+        $this->creator = $creator;
     }
 
     public function __invoke(
@@ -41,32 +47,12 @@ final class SingleImageResponder
         }
 
         $body = $response->getBody();
-        $body->write($this->createBodyContent($type, $image));
+        $body->write($this->creator->createBody($type, $image));
 
         /** @var ResponseInterface $response */
         $response = $response->withHeader('Content-Type', $type);
         $response = $response->withBody($body);
 
         return $response;
-    }
-
-    /**
-     * Consider it like a view being rendered if you were using twig (which you could do here too!)
-     *
-     * @param string $type
-     * @param Image  $image
-     *
-     * @return string
-     */
-    private function createBodyContent(string $type, Image $image): string
-    {
-        switch ($type) {
-            case 'application/xml':
-                return (new XmlOutput())->createOutput($image);
-                break;
-            case 'application/json':
-            default:
-                return (new JsonOutput())->createOutput($image);
-        }
     }
 }
