@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Api\Presentation\RandomCage\SingleImage;
+namespace App\Presentation\RandomCage\SingleImage;
 
-use App\Api\Presentation\RandomCage\SingleImage\Output\JsonOutput;
-use App\Api\Presentation\RandomCage\SingleImage\Output\XmlOutput;
+use App\Presentation\RandomCage\SingleImage\Output\JsonOutput;
+use App\Presentation\RandomCage\SingleImage\Output\XmlOutput;
 use App\Domain\Model\Image;
 
 class Creator

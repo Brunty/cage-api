@@ -8,49 +8,59 @@ use PHPUnit\Framework\Assert;
 class CageImageTest extends ApiTestCase
 {
 
-    public function setUp()
-    {
-        $this->configureClientOptions(['headers' => ['Accept' => 'application/json']]);
-        parent::setUp();
-    }
     /**
      * @test
-     */
-    public function a_single_random_cage_image_is_returned()
-    {
-        $this->get('/random');
-        $this->assertResponseOk();
-        $this->assertResponseWasJson();
-        $this->assertResponseHasKey('image');
-    }
-
-    /**
-     * @param $number
+     * @dataProvider provider_for_a_single_random_cage_image_is_returned
      *
-     * @test
-     * @dataProvider provider_for_multiple_random_cage_images_are_returned
+     * @param string $contentType
+     * @param string $assertion
      */
-    public function multiple_random_cage_images_are_returned($number)
+    public function a_single_random_cage_image_is_returned(string $contentType, string $assertion)
     {
-        self::markTestIncomplete('Multiple images not yet implemented.');
-        $this->get(sprintf('/random/%d', $number));
+        $this->get('/random', ['headers' => ['Accept' => $contentType]]);
         $this->assertResponseOk();
-        $this->assertResponseWasJson();
-        Assert::assertCount($number, $this->responseBody(true)['images']);
+        $this->$assertion();
+        $this->assertResponseHasKey('image');
     }
 
     /**
      * @return array
      */
-    public function provider_for_multiple_random_cage_images_are_returned()
+    public function provider_for_a_single_random_cage_image_is_returned()
     {
         return [
-            [1],
-            [2],
-            [3],
-            [4],
-            [5],
-            [6]
+            ['application/xml', 'assertResponseWasXml'],
+            ['application/json', 'assertResponseWasJson'],
         ];
     }
+
+//    /**
+//     * @param $number
+//     *
+//     * @test
+//     * @dataProvider provider_for_multiple_random_cage_images_are_returned
+//     */
+//    public function multiple_random_cage_images_are_returned($number)
+//    {
+//        self::markTestIncomplete('Multiple images not yet implemented.');
+//        $this->get(sprintf('/random/%d', $number));
+//        $this->assertResponseOk();
+//        $this->assertResponseWasJson();
+//        Assert::assertCount($number, $this->responseBody(true)['images']);
+//    }
+//
+//    /**
+//     * @return array
+//     */
+//    public function provider_for_multiple_random_cage_images_are_returned()
+//    {
+//        return [
+//            [1],
+//            [2],
+//            [3],
+//            [4],
+//            [5],
+//            [6]
+//        ];
+//    }
 }

@@ -3,9 +3,7 @@
 namespace App\Api\Responder\RandomCage;
 
 use App\Api\Negotiator\UnavailableContentTypeException;
-use App\Api\Output\RandomCage\SingleImage\JsonOutput;
-use App\Api\Output\RandomCage\SingleImage\XmlOutput;
-use App\Api\Presentation\RandomCage\SingleImage\Creator;
+use App\Presentation\RandomCage\SingleImage\Creator;
 use App\Domain\Model\Image;
 use App\Api\Negotiator\AcceptHeaderNegotiator;
 use Psr\Http\Message\ResponseInterface;

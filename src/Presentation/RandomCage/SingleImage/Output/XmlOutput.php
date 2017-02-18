@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\Presentation\RandomCage\SingleImage\Output;
+namespace App\Presentation\RandomCage\SingleImage\Output;
 
 use App\Domain\Model\Image;
 
