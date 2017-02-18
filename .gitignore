@@ -3,3 +3,4 @@
 !/var/logs/README.md
 /var/storage/*
 !/var/storage/README.md
+/build/
