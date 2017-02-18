@@ -2,6 +2,11 @@
 
 use Interop\Container\ContainerInterface;
 
+/*
+ * I'm not importing many things here purely so it's easier to see the namespace
+ * of where things are coming from in each container binding.
+ */
+
 $container = $app->getContainer();
 
 $container['renderer'] = function (ContainerInterface $c) {
@@ -20,8 +25,8 @@ $container['logger'] = function (ContainerInterface $c) {
 };
 
 $container[App\Api\Negotiator\AcceptHeaderNegotiator::class] = function () {
-    return new \App\Api\Negotiator\AuraAcceptHeaderNegotiator(
-        (new \Aura\Accept\AcceptFactory($_SERVER))->newInstance()
+    return new App\Api\Negotiator\AuraAcceptHeaderNegotiator(
+        (new Aura\Accept\AcceptFactory($_SERVER))->newInstance()
     );
 };
 
