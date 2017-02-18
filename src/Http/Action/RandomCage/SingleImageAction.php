@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\RandomCage;
+namespace App\Http\Action\RandomCage;
 
 use App\Http\Responder\RandomCage\SingleImageResponder;
 use App\Domain\Repository\CageRepository;
