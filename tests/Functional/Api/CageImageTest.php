@@ -32,6 +32,7 @@ class CageImageTest extends ApiTestCase
      */
     public function multiple_random_cage_images_are_returned($number)
     {
+        self::markTestIncomplete('Multiple images not yet implemented.');
         $this->get(sprintf('/random/%d', $number));
         $this->assertResponseOk();
         $this->assertResponseWasJson();

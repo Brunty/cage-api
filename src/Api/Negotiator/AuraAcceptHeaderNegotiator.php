@@ -25,6 +25,6 @@ class AuraAcceptHeaderNegotiator implements AcceptHeaderNegotiator
             throw new UnavailableContentTypeException;
         }
 
-        return $availableTypes->getType();
+        return $availableTypes->getValue();
     }
 }
