@@ -3,13 +3,15 @@
 namespace App\Api\Responder\RandomCage;
 
 use App\Api\Negotiator\UnavailableContentTypeException;
+use App\Api\Output\RandomCage\SingleImage\JsonOutput;
+use App\Api\Output\RandomCage\SingleImage\XmlOutput;
 use App\Domain\Model\Image;
 use App\Api\Negotiator\AcceptHeaderNegotiator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\StatusCode;
 
-class SingleImageResponder
+final class SingleImageResponder
 {
 
     /**

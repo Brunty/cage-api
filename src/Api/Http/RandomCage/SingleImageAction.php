@@ -7,7 +7,7 @@ use App\Domain\Repository\CageRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class SingleImageAction
+final class SingleImageAction
 {
 
     /**

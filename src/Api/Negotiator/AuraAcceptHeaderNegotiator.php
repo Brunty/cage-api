@@ -4,7 +4,7 @@ namespace App\Api\Negotiator;
 
 use Aura\Accept\Accept;
 
-class AuraAcceptHeaderNegotiator implements AcceptHeaderNegotiator
+final class AuraAcceptHeaderNegotiator implements AcceptHeaderNegotiator
 {
 
     /**
