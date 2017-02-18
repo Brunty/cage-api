@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Api\Http\RandomCage;
+namespace App\Http\RandomCage;
 
-use App\Api\Responder\RandomCage\SingleImageResponder;
+use App\Http\Responder\RandomCage\SingleImageResponder;
 use App\Domain\Repository\CageRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
