@@ -42,8 +42,8 @@ $container[App\Http\Responder\RandomCage\SingleImageResponder::class] = function
     );
 };
 
-$container[App\Http\RandomCage\SingleImageAction::class] = function (ContainerInterface $c) {
-    return new App\Http\RandomCage\SingleImageAction(
+$container[App\Http\Action\RandomCage\SingleImageAction::class] = function (ContainerInterface $c) {
+    return new App\Http\Action\RandomCage\SingleImageAction(
         $c->get(App\Domain\Repository\CageRepository::class),
         $c->get(App\Http\Responder\RandomCage\SingleImageResponder::class)
     );
