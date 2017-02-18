@@ -51,6 +51,8 @@ final class SingleImageResponder
     }
 
     /**
+     * Consider it like a view being rendered if you were using twig (which you could do here too!)
+     *
      * @param string $type
      * @param Image  $image
      *
@@ -59,9 +61,12 @@ final class SingleImageResponder
     private function createBodyContent(string $type, Image $image): string
     {
         switch ($type) {
+            case 'application/xml':
+                return (new XmlOutput())->createOutput($image);
+                break;
             case 'application/json':
             default:
-                return json_encode(['image' => (string) $image]);
+                return (new JsonOutput())->createOutput($image);
         }
     }
 }

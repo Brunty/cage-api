@@ -22,7 +22,8 @@ return [
 
         'api' => [
             'content_types' => [
-                'application/json'
+                'application/json',
+                'application/xml'
             ]
         ]
     ],
