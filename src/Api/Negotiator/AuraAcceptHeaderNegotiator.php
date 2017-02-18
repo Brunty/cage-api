@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Negotiator;
+namespace App\Api\Negotiator;
 
 use Aura\Accept\Accept;
 
@@ -19,6 +19,12 @@ class AuraAcceptHeaderNegotiator implements AcceptHeaderNegotiator
 
     public function negotiate(array $availableTypes): string
     {
-        return $this->accept->negotiateMedia($availableTypes)->getType();
+        $availableTypes = $this->accept->negotiateMedia($availableTypes);
+
+        if ($availableTypes === false) {
+            throw new UnavailableContentTypeException;
+        }
+
+        return $availableTypes->getType();
     }
 }
