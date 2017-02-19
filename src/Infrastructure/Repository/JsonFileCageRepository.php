@@ -6,7 +6,7 @@ use App\Domain\Model\Image;
 use App\Domain\Repository\CageRepository;
 use OutOfRangeException;
 
-class JsonFileCageRepository implements CageRepository
+final class JsonFileCageRepository implements CageRepository
 {
     CONST MAX_BOMB_CAGES = 10;
 

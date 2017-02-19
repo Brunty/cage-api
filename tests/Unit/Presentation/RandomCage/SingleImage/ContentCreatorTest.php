@@ -1,9 +1,10 @@
 <?php
 
 use App\Domain\Model\Image;
+use App\Presentation\RandomCage\SingleImage\ContentCreator;
 use App\Presentation\RandomCage\SingleImage\Creator;
 
-class CreatorTest extends \PHPUnit\Framework\TestCase
+class ContentCreatorTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -15,7 +16,7 @@ class CreatorTest extends \PHPUnit\Framework\TestCase
      */
     public function it_creates_output_based_on_a_type($type, $expectedOutput)
     {
-        $creator = new Creator;
+        $creator = new ContentCreator;
         $image = new Image('thisisanimagesourceurl');
 
         self::assertEquals($expectedOutput, $creator->createBody($type, $image));

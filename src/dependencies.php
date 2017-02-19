@@ -34,9 +34,9 @@ $container[App\Domain\Repository\CageRepository::class] = function (ContainerInt
     return new App\Infrastructure\Repository\JsonFileCageRepository($c->get('settings')['storage']['cage_file_path']);
 };
 
-$container[App\Http\Responder\RandomCage\SingleImageResponder::class] = function (ContainerInterface $c) {
-    return new App\Http\Responder\RandomCage\SingleImageResponder(
-        new App\Presentation\RandomCage\SingleImage\Creator,
+$container[App\Http\Responder\RandomCage\SingleImage\SingleImageResponder::class] = function (ContainerInterface $c) {
+    return new App\Http\Responder\RandomCage\SingleImage\SingleImageResponder(
+        new App\Presentation\RandomCage\SingleImage\ContentCreator,
         $c->get(App\Http\Negotiator\AcceptHeaderNegotiator::class),
         $c->get('settings')['api']['content_types']
     );
@@ -45,6 +45,6 @@ $container[App\Http\Responder\RandomCage\SingleImageResponder::class] = function
 $container[App\Http\Action\RandomCage\SingleImageAction::class] = function (ContainerInterface $c) {
     return new App\Http\Action\RandomCage\SingleImageAction(
         $c->get(App\Domain\Repository\CageRepository::class),
-        $c->get(App\Http\Responder\RandomCage\SingleImageResponder::class)
+        $c->get(App\Http\Responder\RandomCage\SingleImage\SingleImageResponder::class)
     );
 };

@@ -2,6 +2,7 @@
 
 namespace App\Http\Action\RandomCage;
 
+use App\Http\Responder\RandomCage\SingleImage\Responder;
 use App\Http\Responder\RandomCage\SingleImageResponder;
 use App\Domain\Repository\CageRepository;
 use Psr\Http\Message\ResponseInterface;
@@ -20,7 +21,7 @@ class SingleImageAction
      */
     private $responder;
 
-    public function __construct(CageRepository $repository, SingleImageResponder $responder)
+    public function __construct(CageRepository $repository, Responder $responder)
     {
         $this->repository = $repository;
         $this->responder = $responder;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Responder\RandomCage;
+namespace App\Http\Responder\RandomCage\SingleImage;
 
 use App\Http\Negotiator\UnavailableContentTypeException;
 use App\Presentation\RandomCage\SingleImage\Creator;
@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\StatusCode;
 
-class SingleImageResponder
+final class SingleImageResponder implements Responder
 {
 
     /**
