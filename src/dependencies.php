@@ -9,13 +9,7 @@ use Interop\Container\ContainerInterface;
 
 $container = $app->getContainer();
 
-$container['renderer'] = function (ContainerInterface $c) {
-    $settings = $c->get('settings')['renderer'];
-
-    return new Slim\Views\PhpRenderer($settings['template_path']);
-};
-
-$container['logger'] = function (ContainerInterface $c) {
+$container[Psr\Log\LoggerInterface::class] = function (ContainerInterface $c) {
     $settings = $c->get('settings')['logger'];
     $logger = new Monolog\Logger($settings['name']);
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
@@ -42,9 +36,26 @@ $container[App\Http\Responder\RandomCage\SingleImage\SingleImageResponder::class
     );
 };
 
+$container[App\Domain\Event\EventDispatcher::class] = function (ContainerInterface $c) {
+    return new App\Infrastructure\Event\LeagueEventDispatcher(new League\Event\Emitter);
+};
+
 $container[App\Http\Action\RandomCage\SingleImageAction::class] = function (ContainerInterface $c) {
     return new App\Http\Action\RandomCage\SingleImageAction(
-        $c->get(App\Domain\Repository\CageRepository::class),
+        new App\Infrastructure\Repository\EventDispatchingJsonFileCageRepository(
+            $c->get(App\Domain\Repository\CageRepository::class), $c->get(App\Domain\Event\EventDispatcher::class)
+        ),
         $c->get(App\Http\Responder\RandomCage\SingleImage\SingleImageResponder::class)
     );
 };
+
+
+/**
+ * @var \App\Domain\Event\EventDispatcher $dispatcher
+ */
+$dispatcher = $container->get(App\Domain\Event\EventDispatcher::class);
+
+$dispatcher->addListener(
+    App\Domain\Event\RandomCageImageViewed::class,
+    new App\Infrastructure\Event\Listener\ImageViewedListener($container->get(Psr\Log\LoggerInterface::class))
+);
