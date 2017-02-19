@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-final class Image
+class Image
 {
 
     /**

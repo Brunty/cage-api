@@ -36,7 +36,7 @@ $container[App\Domain\Repository\CageRepository::class] = function (ContainerInt
 
 $container[App\Http\Responder\RandomCage\SingleImageResponder::class] = function (ContainerInterface $c) {
     return new App\Http\Responder\RandomCage\SingleImageResponder(
-        new \App\Presentation\RandomCage\SingleImage\Creator,
+        new App\Presentation\RandomCage\SingleImage\Creator,
         $c->get(App\Http\Negotiator\AcceptHeaderNegotiator::class),
         $c->get('settings')['api']['content_types']
     );

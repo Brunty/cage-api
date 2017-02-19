@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\StatusCode;
 
-final class SingleImageResponder
+class SingleImageResponder
 {
 
     /**

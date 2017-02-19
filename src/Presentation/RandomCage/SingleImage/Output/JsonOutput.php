@@ -4,7 +4,7 @@ namespace App\Presentation\RandomCage\SingleImage\Output;
 
 use App\Domain\Model\Image;
 
-final class JsonOutput
+class JsonOutput
 {
 
     public function createOutput(Image $image): string
