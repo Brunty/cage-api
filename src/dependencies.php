@@ -9,6 +9,7 @@ use Interop\Container\ContainerInterface;
 
 $container = $app->getContainer();
 
+// 'Domain' type stuff
 $container[Psr\Log\LoggerInterface::class] = function (ContainerInterface $c) {
     $settings = $c->get('settings')['logger'];
     $logger = new Monolog\Logger($settings['name']);
@@ -18,14 +19,19 @@ $container[Psr\Log\LoggerInterface::class] = function (ContainerInterface $c) {
     return $logger;
 };
 
+$container[App\Domain\Repository\CageRepository::class] = function (ContainerInterface $c) {
+    return new App\Infrastructure\Repository\JsonFileCageRepository($c->get('settings')['storage']['cage_file_path']);
+};
+
+$container[App\Domain\Event\EventDispatcher::class] = function (ContainerInterface $c) {
+    return new App\Infrastructure\Event\LeagueEventDispatcher(new League\Event\Emitter);
+};
+
+// HTTP layer stuff
 $container[App\Http\Negotiator\AcceptHeaderNegotiator::class] = function () {
     return new App\Http\Negotiator\AuraAcceptHeaderNegotiator(
         (new Aura\Accept\AcceptFactory($_SERVER))->newInstance()
     );
-};
-
-$container[App\Domain\Repository\CageRepository::class] = function (ContainerInterface $c) {
-    return new App\Infrastructure\Repository\JsonFileCageRepository($c->get('settings')['storage']['cage_file_path']);
 };
 
 $container[App\Http\Responder\RandomCage\SingleImage\SingleImageResponder::class] = function (ContainerInterface $c) {
@@ -34,10 +40,6 @@ $container[App\Http\Responder\RandomCage\SingleImage\SingleImageResponder::class
         $c->get(App\Http\Negotiator\AcceptHeaderNegotiator::class),
         $c->get('settings')['api']['content_types']
     );
-};
-
-$container[App\Domain\Event\EventDispatcher::class] = function (ContainerInterface $c) {
-    return new App\Infrastructure\Event\LeagueEventDispatcher(new League\Event\Emitter);
 };
 
 $container[App\Http\Action\RandomCage\SingleImageAction::class] = function (ContainerInterface $c) {
@@ -49,12 +51,12 @@ $container[App\Http\Action\RandomCage\SingleImageAction::class] = function (Cont
     );
 };
 
-
 /**
  * @var \App\Domain\Event\EventDispatcher $dispatcher
  */
 $dispatcher = $container->get(App\Domain\Event\EventDispatcher::class);
 
+// Events
 $dispatcher->addListener(
     App\Domain\Event\RandomCageImageViewed::class,
     new App\Infrastructure\Event\Listener\ImageViewedListener($container->get(Psr\Log\LoggerInterface::class))
