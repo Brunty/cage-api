@@ -3,7 +3,6 @@
 namespace App\Http\Action\RandomCage;
 
 use App\Http\Responder\RandomCage\SingleImage\Responder;
-use App\Http\Responder\RandomCage\SingleImageResponder;
 use App\Domain\Repository\CageRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,7 +16,7 @@ class SingleImageAction
     private $repository;
 
     /**
-     * @var SingleImageResponder
+     * @var Responder
      */
     private $responder;
 

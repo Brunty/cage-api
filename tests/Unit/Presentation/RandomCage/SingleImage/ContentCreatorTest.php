@@ -1,8 +1,9 @@
 <?php
 
+namespace Tests\Unit\Presentation\RandomCage\SingleImage;
+
 use App\Domain\Model\Image;
 use App\Presentation\RandomCage\SingleImage\ContentCreator;
-use App\Presentation\RandomCage\SingleImage\Creator;
 
 class ContentCreatorTest extends \PHPUnit\Framework\TestCase
 {

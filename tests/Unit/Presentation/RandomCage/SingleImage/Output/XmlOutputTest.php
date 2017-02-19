@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Unit\Presentation\RandomCage\SingleImage\Output;
+
 use App\Domain\Model\Image;
 use App\Presentation\RandomCage\SingleImage\Output\XmlOutput;
 
