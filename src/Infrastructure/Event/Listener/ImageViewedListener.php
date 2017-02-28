@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Event\Listener;
 
+use App\Domain\Event\RandomCageImageViewed;
 use League\Event\EventInterface;
 use League\Event\ListenerInterface;
 use Psr\Log\LoggerInterface;
@@ -22,7 +23,7 @@ class ImageViewedListener implements ListenerInterface
     /**
      * Handle an event.
      *
-     * @param EventInterface $event
+     * @param EventInterface|RandomCageImageViewed $event
      *
      * @return void
      */
