@@ -2,17 +2,9 @@
     "name": "slim/slim-skeleton",
     "description": "A Slim Framework skeleton application for rapid development",
     "keywords": ["microframework", "rest", "router", "psr7"],
-    "homepage": "http://github.com/slimphp/Slim-Skeleton",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Josh Lockhart",
-            "email": "info@joshlockhart.com",
-            "homepage": "http://www.joshlockhart.com/"
-        }
-    ],
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=7.0",
         "slim/slim": "^3.1",
         "monolog/monolog": "^1.17",
         "aura/accept": "^2.2",
@@ -31,7 +23,10 @@
     },
 	"scripts": {
         "start": "php -S 0.0.0.0:8080 -t public public/index.php",
-        "test": "phpunit"
+        "test": "phpunit",
+        "compile": [
+            "cp var/storage/cages.stub.json var/storage/cages.json"
+        ]
 	}
 
 }
