@@ -34,6 +34,9 @@ $container[\App\Http\Negotiator\AcceptHeaderNegotiator::class] = function () {
     );
 };
 
+/*
+ * SINGLE IMAGES
+ */
 $container[\App\Http\Responder\RandomCage\SingleImage\SingleImageResponder::class] = function (ContainerInterface $c) {
     return new \App\Http\Responder\RandomCage\SingleImage\SingleImageResponder(
         new \App\Presentation\RandomCage\SingleImage\ContentCreator,
@@ -50,6 +53,30 @@ $container[\App\Http\Action\RandomCage\SingleImageAction::class] = function (Con
         $c->get(\App\Http\Responder\RandomCage\SingleImage\SingleImageResponder::class)
     );
 };
+
+
+/*
+ * MULTIPLE IMAGES
+ */
+
+
+$container[\App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder::class] = function (ContainerInterface $c) {
+    return new \App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder(
+        new \App\Presentation\RandomCage\MultipleImage\ContentCreator,
+        $c->get(\App\Http\Negotiator\AcceptHeaderNegotiator::class),
+        $c->get('settings')['api']['content_types']
+    );
+};
+
+$container[\App\Http\Action\RandomCage\MultipleImageAction::class] = function (ContainerInterface $c) {
+    return new \App\Http\Action\RandomCage\MultipleImageAction(
+        new \App\Infrastructure\Repository\EventDispatchingJsonFileCageRepository(
+            $c->get(\App\Domain\Repository\CageRepository::class), $c->get(\App\Domain\Event\EventDispatcher::class)
+        ),
+        $c->get(\App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder::class)
+    );
+};
+
 
 /**
  * @var \App\Domain\Event\EventDispatcher $dispatcher

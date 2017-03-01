@@ -1,6 +1,7 @@
 <?php
 // Routes
 
+use App\Http\Action\RandomCage\MultipleImageAction;
 use App\Http\Action\RandomCage\SingleImageAction;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -12,3 +13,5 @@ $app->get('/', function (Request $request, Response $response) {
 });
 
 $app->get('/random', SingleImageAction::class);
+
+$app->get('/random/{number}', MultipleImageAction::class);

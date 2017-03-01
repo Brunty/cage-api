@@ -34,33 +34,35 @@ class CageImageTest extends ApiTestCase
         ];
     }
 
-//    /**
-//     * @param $number
-//     *
-//     * @test
-//     * @dataProvider provider_for_multiple_random_cage_images_are_returned
-//     */
-//    public function multiple_random_cage_images_are_returned($number)
-//    {
-//        self::markTestIncomplete('Multiple images not yet implemented.');
-//        $this->get(sprintf('/random/%d', $number));
-//        $this->assertResponseOk();
-//        $this->assertResponseWasJson();
-//        Assert::assertCount($number, $this->responseBody(true)['images']);
-//    }
-//
-//    /**
-//     * @return array
-//     */
-//    public function provider_for_multiple_random_cage_images_are_returned()
-//    {
-//        return [
-//            [1],
-//            [2],
-//            [3],
-//            [4],
-//            [5],
-//            [6]
-//        ];
-//    }
+    /**
+     * @param string $contentType
+     * @param int    $number
+     *
+     * @param string $assertion
+     *
+     * @test
+     * @dataProvider provider_for_multiple_random_cage_images_are_returned
+     */
+    public function multiple_random_cage_images_are_returned(string $contentType, int $number, string $assertion)
+    {
+        $this->get(sprintf('/random/%d', $number), ['headers' => ['Accept' => $contentType]]);
+        $this->assertResponseOk();
+        $this->$assertion();
+        Assert::assertCount($number, $this->responseBody(true)['images']);
+    }
+
+    /**
+     * @return array
+     */
+    public function provider_for_multiple_random_cage_images_are_returned()
+    {
+        return [
+            ['application/json', 1, 'assertResponseWasJson'],
+            ['application/json', 2, 'assertResponseWasJson'],
+            ['application/json', 3, 'assertResponseWasJson'],
+            ['application/json', 4, 'assertResponseWasJson'],
+            ['application/json', 5, 'assertResponseWasJson'],
+            ['application/json', 6, 'assertResponseWasJson']
+        ];
+    }
 }
