@@ -59,7 +59,7 @@ final class JsonFileCageRepository implements CageRepository
         // Randomise those Cages!
         shuffle($cages);
 
-        return array_slice($cages, 0, $count);
+        return array_map(function($string) { return new Image($string); } , array_slice($cages, 0, $count));
     }
 
     public function getAllCageImages(): array

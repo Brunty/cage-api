@@ -25,7 +25,7 @@ class SingleImageActionTest extends \PHPUnit\Framework\TestCase
         $responder = $this->prophesize(Responder::class);
         $responder->__invoke($request->reveal(), $response->reveal(), $image)->willReturn($response->reveal());
 
-        $action = new SingleImageaction($repo->reveal(), $responder->reveal());
+        $action = new SingleImageAction($repo->reveal(), $responder->reveal());
 
         $action($request->reveal(), $response->reveal());
 
