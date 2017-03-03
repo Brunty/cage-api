@@ -19,8 +19,12 @@ class LeagueEventDispatcherTest extends TestCase
      */
     public function it_emits_events()
     {
-        $handler = new class extends AbstractProcessingHandler {
+        $handler = new class extends AbstractProcessingHandler
+        {
 
+            /**
+             * @var array
+             */
             protected $logs = [];
 
             /**
@@ -35,13 +39,18 @@ class LeagueEventDispatcherTest extends TestCase
                 $this->logs[] = $record;
             }
 
-            public function getLogs()
+            public function getLogs(): array
             {
                 return $this->logs;
-            }};
+            }
+        };
         $dispatcher = new LeagueEventDispatcher(new Emitter);
-        $dispatcher->addListener(RandomCageImageViewed::class, new ImageViewedListener(new Logger('logger', [$handler])));
+        $dispatcher->addListener(
+            RandomCageImageViewed::class,
+            new ImageViewedListener(new Logger('logger', [$handler]))
+        );
         $dispatcher->dispatch(new RandomCageImageViewed(new Image('imageurl')));
+
         self::assertNotEmpty($handler->getLogs());
         self::assertEquals('Image viewed: imageurl', $handler->getLogs()[0]['message']);
     }
