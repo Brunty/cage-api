@@ -9,7 +9,23 @@ use Interop\Container\ContainerInterface;
 
 $container = $app->getContainer();
 
-// 'Domain' type stuff
+
+// Register Twig View helper
+$container['view'] = function (ContainerInterface $c) {
+
+    $settings = $c->get('settings')['view'];
+
+    $view = new \Slim\Views\Twig($settings['templates'], [
+        'cache' => $settings['cache']
+    ]);
+
+    // Instantiate and add Slim specific extension
+    $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
+    $view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
+
+    return $view;
+};
+
 $container[\Psr\Log\LoggerInterface::class] = function (ContainerInterface $c) {
     $settings = $c->get('settings')['logger'];
     $logger = new \Monolog\Logger($settings['name']);
@@ -32,6 +48,22 @@ $container[\App\Http\Negotiator\AcceptHeaderNegotiator::class] = function () {
     return new \App\Http\Negotiator\AuraAcceptHeaderNegotiator(
         (new \Aura\Accept\AcceptFactory($_SERVER))->newInstance()
     );
+};
+
+/*
+ * HOMEPAGE
+ */
+
+$container[\App\Presentation\Page\Homepage\ContentCreator::class] = function (ContainerInterface $c) {
+    return new \App\Presentation\Page\Homepage\ContentCreator($c->get('view'));
+};
+
+$container[\App\Http\Responder\Page\Homepage\HomepageResponder::class] = function (ContainerInterface $c) {
+    return new \App\Http\Responder\Page\Homepage\HomepageResponder($c->get(\App\Presentation\Page\Homepage\ContentCreator::class));
+};
+
+$container[\App\Http\Action\Page\HomepageAction::class] = function (ContainerInterface $c) {
+    return new \App\Http\Action\Page\HomepageAction($c->get(\App\Http\Responder\Page\Homepage\HomepageResponder::class));
 };
 
 /*
@@ -58,7 +90,6 @@ $container[\App\Http\Action\RandomCage\SingleImageAction::class] = function (Con
 /*
  * MULTIPLE IMAGES
  */
-
 
 $container[\App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder::class] = function (ContainerInterface $c) {
     return new \App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder(

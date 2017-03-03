@@ -17,25 +17,48 @@ class LeagueEventDispatcherTest extends TestCase
      */
     public function it_emits_events()
     {
-        $listener = new class implements ListenerInterface
+        $listener = $this->getListener();
+        $testEvent = $this->getEvent('test_event');
+
+        $dispatcher = new LeagueEventDispatcher(new Emitter);
+        $dispatcher->addListener('test_event', $listener);
+        $dispatcher->dispatch($testEvent);
+
+        self::assertCount(1, $listener->getEvents());
+        self::assertEquals('test_event', $listener->getEvents()[0]->getName());
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_emits_only_the_correct_events()
+    {
+        $listener = $this->getListener();
+        $firstTestEvent = $this->getEvent('first_test_event');
+        $secondTestEvent = $this->getEvent('second_test_event');
+
+        $dispatcher = new LeagueEventDispatcher(new Emitter);
+        $dispatcher->addListener('first_test_event', $listener);
+        $dispatcher->dispatch($firstTestEvent);
+        $dispatcher->dispatch($secondTestEvent);
+
+        self::assertCount(1, $listener->getEvents());
+        self::assertEquals('first_test_event', $listener->getEvents()[0]->getName());
+    }
+
+    private function getListener(): ListenerInterface
+    {
+        return new class implements ListenerInterface
         {
 
-            /**
-             * @var EventInterface[]
-             */
             protected $events = [];
 
-            /**
-             * @inheritdoc
-             */
             public function handle(EventInterface $event)
             {
                 $this->events[] = $event;
             }
 
-            /**
-             * @inheritdoc
-             */
             public function isListener($listener): bool
             {
                 return true;
@@ -46,15 +69,10 @@ class LeagueEventDispatcherTest extends TestCase
                 return $this->events;
             }
         };
-        $dispatcher = new LeagueEventDispatcher(new Emitter);
-        $dispatcher->addListener('event', $listener);
-        $dispatcher->dispatch(
-            new class('event') extends Event
-            {
+    }
 
-            }
-        );
-
-        self::assertNotEmpty($listener->getEvents());
+    private function getEvent(string $name): Event
+    {
+        return new class($name) extends Event { };
     }
 }

@@ -1,19 +1,18 @@
 <?php
 return [
     'settings' => [
-        'displayErrorDetails'    => true, // set to false in production
-        'addContentLengthHeader' => false, // Allow the web server to send the content-length header
-
-        // Renderer settings
-        'renderer'               => [
-            'template_path' => __DIR__ . '/../templates/',
-        ],
+        'displayErrorDetails' => getenv('APP_ENVIRONMENT') === 'prod' ? false : true, // set to false in production
 
         // Monolog settings
-        'logger'                 => [
+        'logger'              => [
             'name'  => 'slim-app',
             'path'  => __DIR__ . '/../var/logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
+        ],
+
+        'view' => [
+            'templates' => __DIR__ . '/../src/Presentation/Views',
+            'cache'     => getenv('APP_ENVIRONMENT') === 'prod' ? __DIR__ . '/../var/storage/cache/templates' : false,
         ],
 
         'storage' => [
