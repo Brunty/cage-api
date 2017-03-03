@@ -2,13 +2,11 @@
 
 namespace Tests\Integration\Infrastructure\Event;
 
-use App\Domain\Event\RandomCageImageViewed;
-use App\Domain\Model\Image;
 use App\Infrastructure\Event\LeagueEventDispatcher;
-use App\Infrastructure\Event\Listener\ImageViewedListener;
 use League\Event\Emitter;
-use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Logger;
+use League\Event\Event;
+use League\Event\EventInterface;
+use League\Event\ListenerInterface;
 use PHPUnit\Framework\TestCase;
 
 class LeagueEventDispatcherTest extends TestCase
@@ -19,39 +17,44 @@ class LeagueEventDispatcherTest extends TestCase
      */
     public function it_emits_events()
     {
-        $handler = new class extends AbstractProcessingHandler
+        $listener = new class implements ListenerInterface
         {
 
             /**
-             * @var array
+             * @var EventInterface[]
              */
-            protected $logs = [];
+            protected $events = [];
 
             /**
-             * Writes the record down to the log of the implementing handler
-             *
-             * @param  array $record
-             *
-             * @return void
+             * @inheritdoc
              */
-            protected function write(array $record)
+            public function handle(EventInterface $event)
             {
-                $this->logs[] = $record;
+                $this->events[] = $event;
             }
 
-            public function getLogs(): array
+            /**
+             * @inheritdoc
+             */
+            public function isListener($listener): bool
             {
-                return $this->logs;
+                return true;
+            }
+
+            public function getEvents(): array
+            {
+                return $this->events;
             }
         };
         $dispatcher = new LeagueEventDispatcher(new Emitter);
-        $dispatcher->addListener(
-            RandomCageImageViewed::class,
-            new ImageViewedListener(new Logger('logger', [$handler]))
-        );
-        $dispatcher->dispatch(new RandomCageImageViewed(new Image('imageurl')));
+        $dispatcher->addListener('event', $listener);
+        $dispatcher->dispatch(
+            new class('event') extends Event
+            {
 
-        self::assertNotEmpty($handler->getLogs());
-        self::assertEquals('Image viewed: imageurl', $handler->getLogs()[0]['message']);
+            }
+        );
+
+        self::assertNotEmpty($listener->getEvents());
     }
 }
