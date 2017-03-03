@@ -8,6 +8,7 @@ use OutOfRangeException;
 
 final class JsonFileCageRepository implements CageRepository
 {
+
     CONST MAX_BOMB_CAGES = 10;
 
     /**
@@ -24,15 +25,10 @@ final class JsonFileCageRepository implements CageRepository
      * @var array
      */
     protected $cageQuotes = [];
-    
+
     public function __construct(string $storageFilePath)
     {
         $this->storageFilePath = $storageFilePath;
-    }
-
-    public function getStorageFilePath(): string
-    {
-        return $this->storageFilePath;
     }
 
     public function getRandomCageImage(): Image
@@ -56,69 +52,29 @@ final class JsonFileCageRepository implements CageRepository
         // ALL THE CAGES!
         $cages = $this->getAllCageImages();
 
-        // Randomise those Cages!
         shuffle($cages);
 
-        return array_map(function($string) { return new Image($string); } , array_slice($cages, 0, $count));
+        return array_map(
+            function ($string) {
+                return new Image($string);
+            },
+            array_slice($cages, 0, $count)
+        );
     }
 
-    public function getAllCageImages(): array
+    private function getAllCageImages(): array
     {
-        $fileContents = json_decode(file_get_contents($this->getStorageFilePath()), true);
-
-        $this->cages = $fileContents['cages'];
+        if ( ! $this->cages) {
+            $this->loadCageImages();
+        }
 
         return $this->cages;
     }
 
-    public function getCageImageCount(): int
+    private function loadCageImages()
     {
-        return count($this->getAllCageImages());
-    }
+        $fileContents = json_decode(file_get_contents($this->storageFilePath), true);
 
-
-    public function getAllCageQuotes(): array
-    {
-        $fileContents = json_decode(file_get_contents($this->getStorageFilePath()), true);
-
-        $this->cageQuotes = $fileContents['cage_quotes'];
-
-        return $this->cageQuotes;
-    }
-
-    public function getRandomCageQuote(): string
-    {
-        return $this->getAllCageQuotes()[rand(0, $this->getMaxQuoteIndex())];
-    }
-
-    public function getCageIpsum(int $sentences = 10): string
-    {
-        $quotes = $this->getAllCageQuotes();
-        $wordString = implode(' ', $quotes);
-        $wordString = str_replace('.', '', $wordString);
-        $wordArray = explode(' ', $wordString);
-        $ipsum = [];
-
-        while (count($ipsum) < $sentences) {
-            $wordsInSentence = rand(6, 11);
-            $wordsForSentence = [];
-
-            while (count($wordsForSentence) < $wordsInSentence) {
-                shuffle($wordArray);
-                $wordsForSentence[] = $wordArray[0];
-            }
-
-            $string = implode(' ', $wordsForSentence);
-            $string = ucfirst($string);
-            $string = trim($string, ',\'\"'); // trim off any trailing punctuation, so we don't end up messy.
-            $ipsum[] = $string;
-        }
-
-        return implode('. ', $ipsum) . '.';
-    }
-
-    private function getMaxQuoteIndex(): int
-    {
-        return count($this->getAllCageQuotes()) - 1;
+        $this->cages = $fileContents['cages'];
     }
 }
