@@ -6,4 +6,4 @@ use App\Http\Action\RandomCage\SingleImageAction;
 
 $app->get('/', HomepageAction::class);
 $app->get('/random', SingleImageAction::class);
-$app->get('/random/{number}', MultipleImageAction::class);
+$app->get('/bomb/{number}', MultipleImageAction::class);

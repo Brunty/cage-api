@@ -9,8 +9,6 @@ use OutOfRangeException;
 final class JsonFileCageRepository implements CageRepository
 {
 
-    CONST MAX_BOMB_CAGES = 10;
-
     /**
      * @var array
      */

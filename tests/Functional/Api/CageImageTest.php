@@ -45,7 +45,7 @@ class CageImageTest extends ApiTestCase
      */
     public function multiple_random_cage_images_are_returned(string $contentType, int $number, string $assertion)
     {
-        $this->get(sprintf('/random/%d', $number), ['headers' => ['Accept' => $contentType]]);
+        $this->get(sprintf('/bomb/%d', $number), ['headers' => ['Accept' => $contentType]]);
         $this->assertResponseOk();
         $this->$assertion();
         Assert::assertCount($number, $this->responseBody(true)['images']);
