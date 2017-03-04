@@ -278,4 +278,18 @@ class ArrayCollectionTest extends TestCase
             [['foo' => 'baz'], ['item1', 'item2', ['foo' => 'bar']], false],
         ];
     }
+
+    /**
+     * @test
+     */
+    public function it_slices_the_collection()
+    {
+        $collection = new ArrayCollection(['item1', 'item2', 'foo' => 'bar', 'item3']);
+
+        $results = $collection->slice(0, 3);
+
+        self::assertEquals(['item1', 'item2', 'foo' => 'bar'], $results->toArray());
+        self::assertInstanceOf(ArrayCollection::class, $results);
+        self::assertNotEquals($results, $collection); // asserts that we have a new object back
+    }
 }
