@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Infrastructure\Event\Listener;
 
@@ -7,7 +8,7 @@ use League\Event\EventInterface;
 use League\Event\ListenerInterface;
 use Psr\Log\LoggerInterface;
 
-class ImageViewedListener implements ListenerInterface
+final class ImageViewedListener implements ListenerInterface
 {
 
     /**

@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Negotiator;
 
 use Aura\Accept\Accept;
 
-class AuraAcceptHeaderNegotiator implements AcceptHeaderNegotiator
+final class AuraAcceptHeaderNegotiator implements AcceptHeaderNegotiator
 {
 
     /**

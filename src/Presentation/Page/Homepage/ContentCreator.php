@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Presentation\Page\Homepage;
 
 use Psr\Http\Message\ResponseInterface;
 use Slim\Views\Twig;
 
-class ContentCreator implements Creator
+final class ContentCreator implements Creator
 {
 
     /**

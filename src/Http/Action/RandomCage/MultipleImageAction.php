@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Action\RandomCage;
 
@@ -36,7 +37,7 @@ class MultipleImageAction
         $images = [];
 
         try {
-            $images = $this->repository->getRandomCageImages($args['number']);
+            $images = $this->repository->getRandomCageImages((int)$args['number']);
         } catch (\OutOfRangeException $e) {
             $this->responder->setException($e);
         }

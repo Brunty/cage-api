@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
@@ -31,7 +32,7 @@ final class JsonFileCageRepository implements CageRepository
 
     public function getRandomCageImage(): Image
     {
-        return new Image($this->getRandomCageImages(1)[0]);
+        return $this->getRandomCageImages(1)[0];
     }
 
     public function getRandomCageImages(int $count = 5): array

@@ -1,12 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Presentation\RandomCage\MultipleImage;
 
 use App\Presentation\RandomCage\MultipleImage\Output\JsonOutput;
 use App\Presentation\RandomCage\MultipleImage\Output\XmlOutput;
-use App\Domain\Model\Image;
 
-class ContentCreator implements Creator
+final class ContentCreator implements Creator
 {
 
     public function createBody(string $type, array $images): string

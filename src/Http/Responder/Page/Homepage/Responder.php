@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Responder\Page\Homepage;
 
-use App\Domain\Model\Image;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

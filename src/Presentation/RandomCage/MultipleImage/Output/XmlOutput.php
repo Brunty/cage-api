@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Presentation\RandomCage\MultipleImage\Output;
 
@@ -11,7 +12,7 @@ class XmlOutput
         $imagesXmlNode = $content->addChild('images');
 
         foreach($images as $image) {
-            $imagesXmlNode->addChild('image', $image);
+            $imagesXmlNode->addChild('image', (string)$image);
         }
 
         return $content->asXML();

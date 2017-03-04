@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Responder\RandomCage\MultipleImage;
 
 use App\Http\Negotiator\UnavailableContentTypeException;
 use App\Presentation\RandomCage\MultipleImage\Creator;
-use App\Domain\Model\Image;
 use App\Http\Negotiator\AcceptHeaderNegotiator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

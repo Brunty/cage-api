@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Infrastructure\Event;
 
@@ -7,7 +8,7 @@ use League\Event\Emitter;
 use League\Event\EventInterface;
 use League\Event\ListenerInterface;
 
-class LeagueEventDispatcher implements EventDispatcher
+final class LeagueEventDispatcher implements EventDispatcher
 {
 
     /**
