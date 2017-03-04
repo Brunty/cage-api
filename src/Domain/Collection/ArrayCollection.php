@@ -104,6 +104,11 @@ class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
         return false;
     }
 
+    public function contains($item): bool
+    {
+        return in_array($item, $this->items);
+    }
+
     public function containsKey($key)
     {
         return array_key_exists($key, $this->items);
@@ -121,5 +126,10 @@ class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
     public function set($key, $value)
     {
         $this->items[$key] = $value;
+    }
+
+    public function clear()
+    {
+        $this->items = [];
     }
 }

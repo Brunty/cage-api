@@ -183,23 +183,25 @@ class ArrayCollectionTest extends TestCase
     /**
      * @test
      */
-    public function it_maps_a_function_to_the_elements()
+    public function it_maps_a_function_to_the_collection()
     {
         $collection = new ArrayCollection(['item1', 'item2']);
 
         $results = $collection->map(
             function ($item) {
-                return $item;
+                return $item . 's';
             }
         );
 
-        self::assertEquals(['item1', 'item2'], $results->toArray());
+        self::assertEquals(['item1s', 'item2s'], $results->toArray());
+        self::assertInstanceOf(ArrayCollection::class, $results);
+        self::assertNotEquals($results, $collection); // asserts that we have a new object back
     }
 
     /**
      * @test
      */
-    public function it_filters_the_elements()
+    public function it_filters_the_collection()
     {
         $collection = new ArrayCollection(['item1', 'item2']);
 
@@ -210,5 +212,70 @@ class ArrayCollectionTest extends TestCase
         );
 
         self::assertEquals(['item1'], $results->toArray());
+        self::assertInstanceOf(ArrayCollection::class, $results);
+        self::assertNotEquals($results, $collection); // asserts that we have a new object back
+    }
+
+    /**
+     * @test
+     */
+    public function it_clears_the_collection()
+    {
+        $collection = new ArrayCollection(['item1', 'item2']);
+        $collection->clear();
+
+        self::assertEquals([], $collection->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_chain_multiple_methods_together()
+    {
+        $collection = new ArrayCollection(
+            [
+                'foo' => 'bar',
+                'bar' => 'baz'
+            ]
+        );
+
+        $results = $collection->map(
+            function ($value) {
+                return $value . 's';
+            }
+        )->filter(
+            function ($value) {
+                return $value === 'bars';
+            }
+        );
+
+        self::assertEquals(['foo' => 'bars'], $results->toArray());
+        self::assertInstanceOf(ArrayCollection::class, $results);
+        self::assertNotEquals($results, $collection); // asserts that we have a new object back
+    }
+
+    /**
+     * @test
+     * @dataProvider provider_for_it_checks_whether_the_collection_contains_an_item
+     *
+     * @param       $item
+     * @param array $collection
+     * @param bool  $expectation
+     */
+    public function it_checks_whether_the_collection_contains_an_item($item, array $collection, bool $expectation)
+    {
+        $collection = new ArrayCollection($collection);
+
+        self::assertEquals($expectation, $collection->contains($item));
+    }
+
+    public function provider_for_it_checks_whether_the_collection_contains_an_item(): array
+    {
+        return [
+            ['item1', ['item1', 'item2'], true],
+            ['item3', ['item1', 'item2'], false],
+            [['foo' => 'bar'], ['item1', 'item2', ['foo' => 'bar']], true],
+            [['foo' => 'baz'], ['item1', 'item2', ['foo' => 'bar']], false],
+        ];
     }
 }
