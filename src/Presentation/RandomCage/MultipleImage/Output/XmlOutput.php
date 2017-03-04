@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace App\Presentation\RandomCage\MultipleImage\Output;
 
+use App\Domain\Collection\ImageCollection;
+
 class XmlOutput
 {
 
-    public function createOutput(array $images): string
+    public function createOutput(ImageCollection $images): string
     {
         $content = new \SimpleXMLElement('<xml />');
         $imagesXmlNode = $content->addChild('images');

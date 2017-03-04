@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Http\Actions\RandomCage;
 
+use App\Domain\Collection\ImageCollection;
 use App\Domain\Model\Image;
 use App\Domain\Repository\CageRepository;
 use App\Http\Action\RandomCage\MultipleImageAction;
@@ -15,7 +16,7 @@ class MultipleImageActionTest extends \PHPUnit\Framework\TestCase
     /** @test */
     public function it_invokes_the_responder_correctly()
     {
-        $images = [new Image('imageurl'), new Image('2ndimageurl')];
+        $images = new ImageCollection([new Image('imageurl'), new Image('2ndimageurl')]);
         $repo = $this->prophesize(CageRepository::class);
         $repo->getRandomCageImages(2)->willReturn($images);
 
@@ -35,7 +36,7 @@ class MultipleImageActionTest extends \PHPUnit\Framework\TestCase
     /** @test */
     public function it_passes_the_exception_to_the_responder_if_too_many_images_are_requested()
     {
-        $images = [];
+        $images = new ImageCollection([]);
         $repo = $this->prophesize(CageRepository::class);
         $exception = new \OutOfRangeException;
         $repo->getRandomCageImages(2)->willThrow($exception);

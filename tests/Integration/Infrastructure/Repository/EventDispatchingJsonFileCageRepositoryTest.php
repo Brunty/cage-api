@@ -2,6 +2,7 @@
 
 namespace Tests\Integration\Infrastructure\Repository;
 
+use App\Domain\Collection\ImageCollection;
 use App\Domain\Event\EventDispatcher;
 use App\Domain\Event\RandomCageImageViewed;
 use App\Domain\Model\Image;
@@ -47,7 +48,7 @@ class EventDispatchingJsonFileCageRepositoryTest extends TestCase
         /** @var \Prophecy\Prophecy\ObjectProphecy|CageRepository $repo */
         $repo = $this->prophesize(CageRepository::class);
         $returnImage = new Image('image');
-        $repo->getRandomCageImages($number)->willReturn([$returnImage]);
+        $repo->getRandomCageImages($number)->willReturn(new ImageCollection([$returnImage]));
         $dispatcher = $this->prophesize(EventDispatcher::class);
 
         $eventRepo = new EventDispatchingJsonFileCageRepository($repo->reveal(), $dispatcher->reveal());

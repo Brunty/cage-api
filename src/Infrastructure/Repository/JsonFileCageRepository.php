@@ -1,8 +1,9 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Infrastructure\Repository;
 
+use App\Domain\Collection\ImageCollection;
 use App\Domain\Model\Image;
 use App\Domain\Repository\CageRepository;
 use OutOfRangeException;
@@ -35,7 +36,7 @@ final class JsonFileCageRepository implements CageRepository
         return $this->getRandomCageImages(1)[0];
     }
 
-    public function getRandomCageImages(int $count = 5): array
+    public function getRandomCageImages(int $count = 5): ImageCollection
     {
         /* move this to service class as it's basically validation? Don't like it in repo, oh well... */
         if ($count > self::MAX_BOMB_CAGES) {
@@ -53,11 +54,13 @@ final class JsonFileCageRepository implements CageRepository
 
         shuffle($cages);
 
-        return array_map(
-            function ($string) {
-                return new Image($string);
-            },
-            array_slice($cages, 0, $count)
+        return new ImageCollection(
+            array_map(
+                function ($string) {
+                    return new Image($string);
+                },
+                array_slice($cages, 0, $count)
+            )
         );
     }
 

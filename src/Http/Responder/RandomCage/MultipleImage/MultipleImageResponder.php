@@ -9,6 +9,7 @@ use App\Http\Negotiator\AcceptHeaderNegotiator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\StatusCode;
+use App\Domain\Collection\ImageCollection;
 
 final class MultipleImageResponder implements Responder
 {
@@ -41,7 +42,7 @@ final class MultipleImageResponder implements Responder
     public function __invoke(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        array $images = []
+        ImageCollection $images
     ): ResponseInterface {
         try {
             $type = $this->negotiator->negotiate($this->availableTypes);

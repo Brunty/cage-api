@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
+use App\Domain\Collection\ImageCollection;
 use App\Domain\Event\EventDispatcher;
 use App\Domain\Event\RandomCageImageViewed;
 use App\Domain\Model\Image;
@@ -36,7 +37,7 @@ final class EventDispatchingJsonFileCageRepository implements CageRepository
         return $image;
     }
 
-    public function getRandomCageImages(int $count = 5): array
+    public function getRandomCageImages(int $count = 5): ImageCollection
     {
         return $this->repository->getRandomCageImages($count);
     }

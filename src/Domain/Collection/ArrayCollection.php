@@ -15,7 +15,7 @@ class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
     /**
      * @var array
      */
-    private $items = [];
+    protected $items = [];
 
     public function __construct(array $items = [])
     {
@@ -137,7 +137,7 @@ class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
         $this->items = [];
     }
 
-    public function slice($offset, $length = null)
+    public function slice($offset, $length = null): ArrayCollection
     {
         return new static(array_slice($this->items, $offset, $length, true));
     }

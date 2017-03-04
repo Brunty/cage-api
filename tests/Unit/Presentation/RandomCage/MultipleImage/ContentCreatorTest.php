@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Presentation\RandomCage\MultipleImage;
 
+use App\Domain\Collection\ImageCollection;
 use App\Domain\Model\Image;
 use App\Presentation\RandomCage\MultipleImage\ContentCreator;
 
@@ -18,7 +19,7 @@ class ContentCreatorTest extends \PHPUnit\Framework\TestCase
     public function it_creates_output_based_on_a_type($type, $expectedOutput)
     {
         $creator = new ContentCreator;
-        $images = [new Image('thisisanimagesourceurl'), new Image('2ndsourceurl')];
+        $images = new ImageCollection([new Image('thisisanimagesourceurl'), new Image('2ndsourceurl')]);
 
         self::assertEquals($expectedOutput, $creator->createBody($type, $images));
     }

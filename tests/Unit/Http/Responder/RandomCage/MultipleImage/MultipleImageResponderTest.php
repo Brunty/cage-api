@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Http\Responder\RandomCage\MultipleImage;
 
+use App\Domain\Collection\ImageCollection;
 use App\Domain\Model\Image;
 use App\Http\Negotiator\AcceptHeaderNegotiator;
 use App\Http\Negotiator\UnavailableContentTypeException;
@@ -19,7 +20,7 @@ class MultipleImageResponderTest extends TestCase
     /** @test */
     public function it_sets_the_content_type_and_body_if_content_type_is_found()
     {
-        $images = [new Image('imagesrc')];
+        $images = new ImageCollection([new Image('imagesrc')]);
         $contentType = 'application/json';
         $request = $this->prophesize(ServerRequestInterface::class);
         $response = $this->prophesize(ResponseInterface::class);
@@ -48,7 +49,7 @@ class MultipleImageResponderTest extends TestCase
     /** @test */
     public function it_sets_the_header_if_no_acceptable_content_type_is_found()
     {
-        $images = [new Image('imagesrc')];
+        $images = new ImageCollection([new Image('imagesrc')]);
         $creator = $this->prophesize(Creator::class);
         $availableTypes = [];
         $negotiator = $this->prophesize(AcceptHeaderNegotiator::class);
@@ -69,7 +70,7 @@ class MultipleImageResponderTest extends TestCase
     /** @test */
     public function it_returns_a_bad_request_if_an_exception_was_set()
     {
-        $images = [new Image('imagesrc')];
+        $images = new ImageCollection([new Image('imagesrc')]);
         $contentType = 'application/json';
         $creator = $this->prophesize(Creator::class);
         $availableTypes = [];

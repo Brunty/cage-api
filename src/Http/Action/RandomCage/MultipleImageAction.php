@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Action\RandomCage;
 
+use App\Domain\Collection\ImageCollection;
 use App\Http\Responder\RandomCage\MultipleImage\Responder;
 use App\Domain\Repository\CageRepository;
 use Psr\Http\Message\ResponseInterface;
@@ -34,7 +35,7 @@ class MultipleImageAction
     ): ResponseInterface {
         $responder = $this->responder;
 
-        $images = [];
+        $images = new ImageCollection;
 
         try {
             $images = $this->repository->getRandomCageImages((int)$args['number']);

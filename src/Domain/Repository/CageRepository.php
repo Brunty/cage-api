@@ -2,6 +2,7 @@
 
 namespace App\Domain\Repository;
 
+use App\Domain\Collection\ImageCollection;
 use App\Domain\Model\Image;
 
 interface CageRepository
@@ -11,5 +12,5 @@ interface CageRepository
 
     public function getRandomCageImage(): Image;
 
-    public function getRandomCageImages(int $count = 5): array;
+    public function getRandomCageImages(int $count = 5): ImageCollection;
 }
