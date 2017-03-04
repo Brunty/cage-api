@@ -3,7 +3,11 @@ declare(strict_types = 1);
 
 namespace App\Domain\Collection;
 
-use ArrayAccess, Countable, IteratorAggregate, ArrayIterator, Closure;
+use ArrayAccess;
+use Countable;
+use IteratorAggregate;
+use ArrayIterator;
+use Closure;
 
 class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
 {
