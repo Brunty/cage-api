@@ -12,32 +12,12 @@ use App\Http\Responder\Page\Homepage\HomepageResponder;
 use App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder;
 use App\Http\Responder\RandomCage\SingleImage\SingleImageResponder;
 use App\Presentation\Page\Homepage\ContentCreator as HomepageContentCreator;
-use App\Presentation\RandomCage\SingleImage\ContentCreator as SingleImageContentCreator;
-use App\Presentation\RandomCage\MultipleImage\ContentCreator as MultipleImageContentCreator;
-use Interop\Container\ContainerInterface;
-use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Slim\App;
 use Slim\Views\Twig;
+use Tests\AppTestCase;
 
-class DependenciesTest extends TestCase
+class DependenciesTest extends AppTestCase
 {
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    public function setUp()
-    {
-        // Instantiate the app
-        $settings = require __DIR__ . '/../../src/settings.php';
-        $app = new App($settings);
-
-        // Set up dependencies
-        require __DIR__ . '/../../src/dependencies.php';
-        $this->container = $app->getContainer();
-    }
 
     /**
      * @test
