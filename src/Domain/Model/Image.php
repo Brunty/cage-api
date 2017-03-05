@@ -15,7 +15,7 @@ class Image
         $this->url = $url;
     }
 
-    function __toString(): string
+    public function __toString(): string
     {
         return $this->url;
     }

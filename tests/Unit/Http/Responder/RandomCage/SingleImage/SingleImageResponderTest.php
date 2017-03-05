@@ -4,7 +4,7 @@ namespace Tests\Unit\Http\Responder\RandomCage\SingleImage;
 
 use App\Domain\Model\Image;
 use App\Http\Negotiator\AcceptHeaderNegotiator;
-use App\Http\Negotiator\UnavailableContentTypeException;
+use App\Http\Negotiator\UnacceptableContentTypeException;
 use App\Http\Responder\RandomCage\SingleImage\SingleImageResponder;
 use App\Presentation\RandomCage\SingleImage\Creator;
 use PHPUnit\Framework\TestCase;
@@ -23,12 +23,9 @@ class SingleImageResponderTest extends TestCase
         $contentType = 'application/json';
         $request = $this->prophesize(ServerRequestInterface::class);
         $response = $this->prophesize(ResponseInterface::class);
-        $availableTypes = [];
-
-        $negotiator = $this->prophesize(AcceptHeaderNegotiator::class);
-        $negotiator->negotiate($availableTypes)->willReturn($contentType);
 
         $bodyStream = $this->prophesize(StreamInterface::class);
+        $response->getHeader('Content-Type')->willReturn([$contentType]);
         $response->getBody()->willReturn($bodyStream->reveal());
 
         $content = '';
@@ -36,32 +33,10 @@ class SingleImageResponderTest extends TestCase
         $creator->createBody($contentType, $image)->willReturn($content);
 
         $bodyStream->write($content)->shouldBeCalled();
-
-        $response->withHeader('Content-Type', $contentType)->willReturn($response);
         $response->withBody($bodyStream)->willReturn($response);
 
-        $responder = new SingleImageResponder($creator->reveal(), $negotiator->reveal(), $availableTypes);
+        $responder = new SingleImageResponder($creator->reveal());
 
         $responder($request->reveal(), $response->reveal(), $image);
-    }
-
-    /** @test */
-    public function it_sets_the_header_if_no_acceptable_content_type_is_found()
-    {
-        $image = new Image('imagesrc');
-        $creator = $this->prophesize(Creator::class);
-        $availableTypes = [];
-        $negotiator = $this->prophesize(AcceptHeaderNegotiator::class);
-        $negotiator->negotiate($availableTypes)->willThrow(UnavailableContentTypeException::class);
-
-        $request = $this->prophesize(ServerRequestInterface::class);
-        $response = $this->prophesize(ResponseInterface::class);
-        $response->withStatus(StatusCode::NOT_ACCEPTABLE)->willReturn($response);
-
-        $responder = new SingleImageResponder($creator->reveal(), $negotiator->reveal(), $availableTypes);
-
-        $responder($request->reveal(), $response->reveal(), $image);
-
-        $response->withStatus(StatusCode::NOT_ACCEPTABLE)->shouldHaveBeenCalled();
     }
 }

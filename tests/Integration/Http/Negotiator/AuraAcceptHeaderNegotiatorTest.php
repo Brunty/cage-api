@@ -11,7 +11,7 @@ class AuraAcceptHeaderNegotiatorTest extends TestCase
 
     /**
      * @test
-     * @expectedException \App\Http\Negotiator\UnavailableContentTypeException
+     * @expectedException \App\Http\Negotiator\UnacceptableContentTypeException
      */
     public function it_throws_an_exception_if_no_content_type_is_available()
     {

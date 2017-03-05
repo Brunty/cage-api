@@ -4,7 +4,7 @@ namespace Tests\Unit\Http\Responder\Page\Homepage;
 
 use App\Domain\Model\Image;
 use App\Http\Negotiator\AcceptHeaderNegotiator;
-use App\Http\Negotiator\UnavailableContentTypeException;
+use App\Http\Negotiator\UnacceptableContentTypeException;
 use App\Http\Responder\Page\Homepage\HomepageResponder;
 use App\Presentation\Page\Homepage\Creator;
 use PHPUnit\Framework\TestCase;

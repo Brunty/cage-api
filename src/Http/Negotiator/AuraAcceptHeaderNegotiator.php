@@ -23,7 +23,7 @@ final class AuraAcceptHeaderNegotiator implements AcceptHeaderNegotiator
         $availableTypes = $this->accept->negotiateMedia($availableTypes);
 
         if ($availableTypes === false) {
-            throw new UnavailableContentTypeException;
+            throw new UnacceptableContentTypeException;
         }
 
         return $availableTypes->getValue();

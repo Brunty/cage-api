@@ -1,8 +1,19 @@
 <?php
 
-use App\Http\Action\RandomCage\MultipleImageAction;
-use App\Http\Action\RandomCage\SingleImageAction;
+use App\Http\Middleware\AcceptHeaderMiddleware;
+
+$container = $app->getContainer();
 
 $app->get('/', 'app.http.page.homepage');
-$app->get('/random', 'app.http.random_cage.single_image');
-$app->get('/bomb/{number}', 'app.http.random_cage.multiple_image');
+$app->group(
+    '',
+    function () {
+        $this->get('/random', 'app.http.random_cage.single_image');
+        $this->get('/bomb/{number}', 'app.http.random_cage.multiple_image');
+    }
+)->add(
+    new AcceptHeaderMiddleware(
+        $container->get('app.accept_header_negotiator'),
+        $container->get('settings')['api']['content_types']
+    )
+);

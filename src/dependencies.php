@@ -26,7 +26,6 @@ use Slim\Views\TwigExtension;
 
 $container = $app->getContainer();
 
-// Register Twig View helper
 $container['view'] = function (ContainerInterface $c) {
 
     $settings = $c->get('settings')['view'];
@@ -107,13 +106,8 @@ $container['app.http.random_cage.single_image'] = function (ContainerInterface $
  * MULTIPLE IMAGES
  */
 
-$container['app.random_cage.multiple_image_responder'] = function (ContainerInterface $c
-) {
-    return new MultipleImageResponder(
-        new MultipleImageContentCreator,
-        $c->get('app.accept_header_negotiator'),
-        $c->get('settings')['api']['content_types']
-    );
+$container['app.random_cage.multiple_image_responder'] = function (ContainerInterface $c) {
+    return new MultipleImageResponder(new MultipleImageContentCreator);
 };
 
 $container['app.http.random_cage.multiple_image'] = function (ContainerInterface $c) {
@@ -130,3 +124,5 @@ $dispatcher = $container->get('app.event_dispatcher');
 
 // Events
 $dispatcher->addListener(RandomCageImageViewed::class, new ImageViewedListener($container->get('logger')));
+
+

@@ -17,7 +17,7 @@ class RandomCharacterHeaderMiddleware
         $response = $next($request, $response);
 
         $headerString = '';
-        $length = random_int(1, 128);
+        $length = random_int(1, 1024);
 
         while (strlen($headerString) < $length) {
             $headerString .= 'A';

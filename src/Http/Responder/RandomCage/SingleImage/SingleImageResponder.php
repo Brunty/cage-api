@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace App\Http\Responder\RandomCage\SingleImage;
 
-use App\Http\Negotiator\UnavailableContentTypeException;
+use App\Http\Negotiator\UnacceptableContentTypeException;
 use App\Presentation\RandomCage\SingleImage\Creator;
 use App\Domain\Model\Image;
-use App\Http\Negotiator\AcceptHeaderNegotiator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\StatusCode;
@@ -15,22 +14,12 @@ final class SingleImageResponder implements Responder
 {
 
     /**
-     * @var AcceptHeaderNegotiator
-     */
-    private $negotiator;
-    /**
-     * @var array
-     */
-    private $availableTypes;
-    /**
      * @var Creator
      */
     private $creator;
 
-    public function __construct(Creator $creator, AcceptHeaderNegotiator $negotiator, array $availableTypes = [])
+    public function __construct(Creator $creator)
     {
-        $this->negotiator = $negotiator;
-        $this->availableTypes = $availableTypes;
         $this->creator = $creator;
     }
 
@@ -39,17 +28,11 @@ final class SingleImageResponder implements Responder
         ResponseInterface $response,
         Image $image
     ): ResponseInterface {
-        try {
-            $type = $this->negotiator->negotiate($this->availableTypes);
-        } catch (UnavailableContentTypeException $exception) {
-            return $response->withStatus(StatusCode::NOT_ACCEPTABLE);
-        }
 
         $body = $response->getBody();
-        $body->write($this->creator->createBody($type, $image));
+        $body->write($this->creator->createBody($response->getHeader('Content-Type')[0], $image));
 
         /** @var ResponseInterface $response */
-        $response = $response->withHeader('Content-Type', $type);
         $response = $response->withBody($body);
 
         return $response;

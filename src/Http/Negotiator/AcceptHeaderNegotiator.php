@@ -8,7 +8,7 @@ interface AcceptHeaderNegotiator
     /**
      * @param array $availableTypes
      *
-     * @throws \App\Http\Negotiator\UnavailableContentTypeException
+     * @throws \App\Http\Negotiator\UnacceptableContentTypeException
      * @return string
      */
     public function negotiate(array $availableTypes): string;
