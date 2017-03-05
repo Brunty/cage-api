@@ -1,121 +1,132 @@
 <?php
 
+use App\Domain\Event\RandomCageImageViewed;
+use App\Http\Action\Page\HomepageAction;
+use App\Http\Action\RandomCage\MultipleImageAction;
+use App\Http\Action\RandomCage\SingleImageAction;
+use App\Http\Negotiator\AuraAcceptHeaderNegotiator;
+use App\Http\Responder\Page\Homepage\HomepageResponder;
+use App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder;
+use App\Http\Responder\RandomCage\SingleImage\SingleImageResponder;
+use App\Infrastructure\Event\LeagueEventDispatcher;
+use App\Infrastructure\Event\Listener\ImageViewedListener;
+use App\Infrastructure\Repository\EventDispatchingCageRepository;
+use App\Infrastructure\Repository\JsonFileCageRepository;
+use App\Presentation\Page\Homepage\ContentCreator as HomepageContentCreator;
+use App\Presentation\RandomCage\SingleImage\ContentCreator as SingleImageContentCreator;
+use App\Presentation\RandomCage\MultipleImage\ContentCreator as MultipleImageContentCreator;
+use Aura\Accept\AcceptFactory;
 use Interop\Container\ContainerInterface;
-
-/*
- * I'm not importing many things here purely so it's easier to see the namespace
- * of where things are coming from in each container binding.
- */
+use League\Event\Emitter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Monolog\Processor\UidProcessor;
+use Slim\Views\Twig;
+use Slim\Views\TwigExtension;
 
 $container = $app->getContainer();
-
 
 // Register Twig View helper
 $container['view'] = function (ContainerInterface $c) {
 
     $settings = $c->get('settings')['view'];
 
-    $view = new \Slim\Views\Twig($settings['templates'], [
-        'cache' => $settings['cache']
-    ]);
+    $view = new Twig(
+        $settings['templates'], [
+            'cache' => $settings['cache']
+        ]
+    );
 
     // Instantiate and add Slim specific extension
     $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
-    $view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
+    $view->addExtension(new TwigExtension($c['router'], $basePath));
 
     return $view;
 };
 
-$container[\Psr\Log\LoggerInterface::class] = function (ContainerInterface $c) {
+$container['logger'] = function (ContainerInterface $c) {
     $settings = $c->get('settings')['logger'];
-    $logger = new \Monolog\Logger($settings['name']);
-    $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
-    $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
+    $logger = new Logger($settings['name']);
+    $logger->pushProcessor(new UidProcessor());
+    $logger->pushHandler(new StreamHandler($settings['path'], $settings['level']));
 
     return $logger;
 };
 
-$container[\App\Domain\Repository\CageRepository::class] = function (ContainerInterface $c) {
-    return new \App\Infrastructure\Repository\JsonFileCageRepository($c->get('settings')['storage']['cage_file_path']);
+$container['app.repository.cage'] = function (ContainerInterface $c) {
+    return new JsonFileCageRepository($c->get('settings')['storage']['cage_file_path']);
 };
 
-$container[\App\Domain\Event\EventDispatcher::class] = function (ContainerInterface $c) {
-    return new \App\Infrastructure\Event\LeagueEventDispatcher(new \League\Event\Emitter);
+$container['app.event_dispatcher'] = function (ContainerInterface $c) {
+    return new LeagueEventDispatcher(new Emitter);
 };
 
 // HTTP layer stuff
-$container[\App\Http\Negotiator\AcceptHeaderNegotiator::class] = function () {
-    return new \App\Http\Negotiator\AuraAcceptHeaderNegotiator(
-        (new \Aura\Accept\AcceptFactory($_SERVER))->newInstance()
-    );
+$container['app.accept_header_negotiator'] = function () {
+    return new AuraAcceptHeaderNegotiator((new AcceptFactory($_SERVER))->newInstance());
 };
 
 /*
  * HOMEPAGE
  */
 
-$container[\App\Presentation\Page\Homepage\ContentCreator::class] = function (ContainerInterface $c) {
-    return new \App\Presentation\Page\Homepage\ContentCreator($c->get('view'));
+$container['app.homepage_content_creator'] = function (ContainerInterface $c) {
+    return new HomepageContentCreator($c->get('view'));
 };
 
-$container[\App\Http\Responder\Page\Homepage\HomepageResponder::class] = function (ContainerInterface $c) {
-    return new \App\Http\Responder\Page\Homepage\HomepageResponder($c->get(\App\Presentation\Page\Homepage\ContentCreator::class));
+$container['app.page.homepage_responder'] = function (ContainerInterface $c) {
+    return new HomepageResponder($c->get('app.homepage_content_creator'));
 };
 
-$container[\App\Http\Action\Page\HomepageAction::class] = function (ContainerInterface $c) {
-    return new \App\Http\Action\Page\HomepageAction($c->get(\App\Http\Responder\Page\Homepage\HomepageResponder::class));
+$container['app.http.page.homepage'] = function (ContainerInterface $c) {
+    return new HomepageAction($c->get('app.page.homepage_responder'));
 };
 
 /*
  * SINGLE IMAGES
  */
-$container[\App\Http\Responder\RandomCage\SingleImage\SingleImageResponder::class] = function (ContainerInterface $c) {
-    return new \App\Http\Responder\RandomCage\SingleImage\SingleImageResponder(
-        new \App\Presentation\RandomCage\SingleImage\ContentCreator,
-        $c->get(\App\Http\Negotiator\AcceptHeaderNegotiator::class),
+$container['app.random_cage.single_image_responder'] = function (ContainerInterface $c) {
+    return new SingleImageResponder(
+        new SingleImageContentCreator,
+        $c->get('app.accept_header_negotiator'),
         $c->get('settings')['api']['content_types']
     );
 };
 
-$container[\App\Http\Action\RandomCage\SingleImageAction::class] = function (ContainerInterface $c) {
-    return new \App\Http\Action\RandomCage\SingleImageAction(
-        new \App\Infrastructure\Repository\EventDispatchingJsonFileCageRepository(
-            $c->get(\App\Domain\Repository\CageRepository::class), $c->get(\App\Domain\Event\EventDispatcher::class)
+$container['app.http.random_cage.single_image'] = function (ContainerInterface $c) {
+    return new SingleImageAction(
+        new EventDispatchingCageRepository(
+            $c->get('app.repository.cage'),
+            $c->get('app.event_dispatcher')
         ),
-        $c->get(\App\Http\Responder\RandomCage\SingleImage\SingleImageResponder::class)
+        $c->get('app.random_cage.single_image_responder')
     );
 };
-
 
 /*
  * MULTIPLE IMAGES
  */
 
-$container[\App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder::class] = function (ContainerInterface $c) {
-    return new \App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder(
-        new \App\Presentation\RandomCage\MultipleImage\ContentCreator,
-        $c->get(\App\Http\Negotiator\AcceptHeaderNegotiator::class),
+$container['app.random_cage.multiple_image_responder'] = function (ContainerInterface $c
+) {
+    return new MultipleImageResponder(
+        new MultipleImageContentCreator,
+        $c->get('app.accept_header_negotiator'),
         $c->get('settings')['api']['content_types']
     );
 };
 
-$container[\App\Http\Action\RandomCage\MultipleImageAction::class] = function (ContainerInterface $c) {
-    return new \App\Http\Action\RandomCage\MultipleImageAction(
-        new \App\Infrastructure\Repository\EventDispatchingJsonFileCageRepository(
-            $c->get(\App\Domain\Repository\CageRepository::class), $c->get(\App\Domain\Event\EventDispatcher::class)
-        ),
-        $c->get(\App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder::class)
+$container['app.http.random_cage.multiple_image'] = function (ContainerInterface $c) {
+    return new MultipleImageAction(
+        $c->get('app.repository.cage'),
+        $c->get('app.random_cage.multiple_image_responder')
     );
 };
-
 
 /**
  * @var \App\Domain\Event\EventDispatcher $dispatcher
  */
-$dispatcher = $container->get(\App\Domain\Event\EventDispatcher::class);
+$dispatcher = $container->get('app.event_dispatcher');
 
 // Events
-$dispatcher->addListener(
-    \App\Domain\Event\RandomCageImageViewed::class,
-    new \App\Infrastructure\Event\Listener\ImageViewedListener($container->get(Psr\Log\LoggerInterface::class))
-);
+$dispatcher->addListener(RandomCageImageViewed::class, new ImageViewedListener($container->get('logger')));

@@ -7,10 +7,10 @@ use App\Domain\Event\EventDispatcher;
 use App\Domain\Event\RandomCageImageViewed;
 use App\Domain\Model\Image;
 use App\Domain\Repository\CageRepository;
-use App\Infrastructure\Repository\EventDispatchingJsonFileCageRepository;
+use App\Infrastructure\Repository\EventDispatchingCageRepository;
 use PHPUnit\Framework\TestCase;
 
-class EventDispatchingJsonFileCageRepositoryTest extends TestCase
+class EventDispatchingCageRepositoryTest extends TestCase
 {
 
     /**
@@ -26,7 +26,7 @@ class EventDispatchingJsonFileCageRepositoryTest extends TestCase
         $event = new RandomCageImageViewed($returnImage);
         $dispatcher->dispatch($event)->willReturn();
 
-        $eventRepo = new EventDispatchingJsonFileCageRepository($repo->reveal(), $dispatcher->reveal());
+        $eventRepo = new EventDispatchingCageRepository($repo->reveal(), $dispatcher->reveal());
 
         $image = $eventRepo->getRandomCageImage();
 
@@ -51,7 +51,7 @@ class EventDispatchingJsonFileCageRepositoryTest extends TestCase
         $repo->getRandomCageImages($number)->willReturn(new ImageCollection([$returnImage]));
         $dispatcher = $this->prophesize(EventDispatcher::class);
 
-        $eventRepo = new EventDispatchingJsonFileCageRepository($repo->reveal(), $dispatcher->reveal());
+        $eventRepo = new EventDispatchingCageRepository($repo->reveal(), $dispatcher->reveal());
 
         $images = $eventRepo->getRandomCageImages($number);
 

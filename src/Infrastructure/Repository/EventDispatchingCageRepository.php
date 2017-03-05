@@ -9,7 +9,7 @@ use App\Domain\Event\RandomCageImageViewed;
 use App\Domain\Model\Image;
 use App\Domain\Repository\CageRepository;
 
-final class EventDispatchingJsonFileCageRepository implements CageRepository
+final class EventDispatchingCageRepository implements CageRepository
 {
 
     /**
