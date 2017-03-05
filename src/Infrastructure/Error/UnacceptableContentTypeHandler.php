@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\Error;
 
-use App\Http\Negotiator\UnacceptableContentTypeException;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

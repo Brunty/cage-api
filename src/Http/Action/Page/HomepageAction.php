@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Http\Action\Page;
 
 use App\Http\Responder\Page\Homepage\Responder;
-use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

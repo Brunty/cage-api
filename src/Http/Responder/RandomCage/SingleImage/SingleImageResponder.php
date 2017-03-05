@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace App\Http\Responder\RandomCage\SingleImage;
 
-use App\Http\Negotiator\UnacceptableContentTypeException;
 use App\Presentation\RandomCage\SingleImage\Creator;
 use App\Domain\Model\Image;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Teapot\StatusCode;
 
 final class SingleImageResponder implements Responder
 {

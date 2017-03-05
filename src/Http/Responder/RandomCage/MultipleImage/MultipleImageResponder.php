@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Responder\RandomCage\MultipleImage;
 
-use App\Http\Negotiator\UnacceptableContentTypeException;
 use App\Presentation\RandomCage\MultipleImage\Creator;
-use App\Http\Negotiator\AcceptHeaderNegotiator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Teapot\StatusCode;
