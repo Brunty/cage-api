@@ -5,6 +5,7 @@ use App\Http\Action\Page\HomepageAction;
 use App\Http\Action\RandomCage\MultipleImageAction;
 use App\Http\Action\RandomCage\SingleImageAction;
 use App\Http\Negotiator\AuraAcceptHeaderNegotiator;
+use App\Http\Negotiator\UnacceptableContentTypeException;
 use App\Http\Responder\Page\Homepage\HomepageResponder;
 use App\Http\Responder\RandomCage\MultipleImage\MultipleImageResponder;
 use App\Http\Responder\RandomCage\SingleImage\SingleImageResponder;

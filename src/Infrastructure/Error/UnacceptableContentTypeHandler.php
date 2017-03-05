@@ -25,7 +25,7 @@ class UnacceptableContentTypeHandler
         ServerRequestInterface $request,
         ResponseInterface $response,
         Exception $exception
-    ): ResponseInterface {
+    ) {
         $response = $response->withStatus(StatusCode::NOT_ACCEPTABLE);
         $response = $response->withHeader('Content-Type', 'application/json');
 

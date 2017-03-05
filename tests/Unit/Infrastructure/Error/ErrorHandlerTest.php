@@ -41,8 +41,6 @@ class ErrorHandlerTest extends TestCase
         $callbackResponse = $this->prophesize(ResponseInterface::class);
         $callbackResponse->getBody()->willReturn('callbackresponse');
 
-
-
         $callback = function(ServerRequestInterface $request, ResponseInterface $response, \Exception $exception) use ($callbackResponse) {
             return $callbackResponse->reveal();
         };
