@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Infrastructure\Event\Listener;
 
-use App\Domain\Event\RandomCageImageViewed;
+use App\Domain\Event\CageImageAccessed;
 use App\Domain\Model\Image;
 use App\Infrastructure\Event\Listener\ImageViewedListener;
 use PHPUnit\Framework\TestCase;
@@ -31,7 +31,7 @@ class ImageViewedListenerTest extends TestCase
         $image = new Image('imageurl');
         $logger->info('Image viewed: imageurl')->willReturn();
         $listener = new ImageViewedListener($logger->reveal());
-        $event = new RandomCageImageViewed($image);
+        $event = new CageImageAccessed($image);
 
         $listener->handle($event);
 

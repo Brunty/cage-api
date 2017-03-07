@@ -4,7 +4,7 @@ namespace Tests\Integration\Infrastructure\Repository;
 
 use App\Domain\Collection\ImageCollection;
 use App\Domain\Event\EventDispatcher;
-use App\Domain\Event\RandomCageImageViewed;
+use App\Domain\Event\CageImageAccessed;
 use App\Domain\Model\Image;
 use App\Domain\Repository\CageRepository;
 use App\Infrastructure\Repository\EventDispatchingCageRepository;
@@ -23,7 +23,7 @@ class EventDispatchingCageRepositoryTest extends TestCase
         $returnImage = new Image('image');
         $repo->getRandomCageImage()->willReturn($returnImage);
         $dispatcher = $this->prophesize(EventDispatcher::class);
-        $event = new RandomCageImageViewed($returnImage);
+        $event = new CageImageAccessed($returnImage);
         $dispatcher->dispatch($event)->willReturn();
 
         $eventRepo = new EventDispatchingCageRepository($repo->reveal(), $dispatcher->reveal());

@@ -1,6 +1,6 @@
 <?php
 
-use App\Domain\Event\RandomCageImageViewed;
+use App\Domain\Event\CageImageAccessed;
 use App\Http\Action\Page\HomepageAction;
 use App\Http\Action\RandomCage\MultipleImageAction;
 use App\Http\Action\RandomCage\SingleImageAction;
@@ -117,6 +117,6 @@ $container['app.http.random_cage.multiple_image'] = function (ContainerInterface
 $dispatcher = $container->get('app.event_dispatcher');
 
 // Events
-$dispatcher->addListener(RandomCageImageViewed::class, new ImageViewedListener($container->get('logger')));
+$dispatcher->addListener(CageImageAccessed::class, new ImageViewedListener($container->get('logger')));
 
 

@@ -5,7 +5,7 @@ namespace App\Domain\Event;
 use App\Domain\Model\Image;
 use League\Event\AbstractEvent as Event;
 
-class RandomCageImageViewed extends Event
+final class CageImageAccessed extends Event
 {
 
     /**

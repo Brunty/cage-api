@@ -5,7 +5,7 @@ namespace App\Infrastructure\Repository;
 
 use App\Domain\Collection\ImageCollection;
 use App\Domain\Event\EventDispatcher;
-use App\Domain\Event\RandomCageImageViewed;
+use App\Domain\Event\CageImageAccessed;
 use App\Domain\Model\Image;
 use App\Domain\Repository\CageRepository;
 
@@ -32,7 +32,7 @@ final class EventDispatchingCageRepository implements CageRepository
     {
         $image = $this->repository->getRandomCageImage();
 
-        $this->dispatcher->dispatch(new RandomCageImageViewed($image));
+        $this->dispatcher->dispatch(new CageImageAccessed($image));
 
         return $image;
     }
