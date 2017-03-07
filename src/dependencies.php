@@ -36,7 +36,6 @@ $container['view'] = function (ContainerInterface $c) {
         ]
     );
 
-    // Instantiate and add Slim specific extension
     $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new TwigExtension($c['router'], $basePath));
 
@@ -60,14 +59,9 @@ $container['app.event_dispatcher'] = function (ContainerInterface $c) {
     return new LeagueEventDispatcher(new Emitter);
 };
 
-// HTTP layer stuff
 $container['app.accept_header_negotiator'] = function () {
     return new AuraAcceptHeaderNegotiator((new AcceptFactory($_SERVER))->newInstance());
 };
-
-/*
- * HOMEPAGE
- */
 
 $container['app.homepage_content_creator'] = function (ContainerInterface $c) {
     return new HomepageContentCreator($c->get('view'));
