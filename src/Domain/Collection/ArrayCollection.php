@@ -22,13 +22,6 @@ class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
         $this->items = $items;
     }
 
-    public function add($item): bool
-    {
-        $this->items[] = $item;
-
-        return true;
-    }
-
     /**
      * @inheritdoc
      */
@@ -81,6 +74,13 @@ class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
         return count($this->items);
     }
 
+    public function add($item): bool
+    {
+        $this->items[] = $item;
+
+        return true;
+    }
+
     public function map(Closure $closure): ArrayCollection
     {
         return new static(array_map($closure, $this->items));
@@ -113,7 +113,7 @@ class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
         return in_array($item, $this->items);
     }
 
-    public function containsKey($key)
+    public function containsKey($key): bool
     {
         return array_key_exists($key, $this->items);
     }

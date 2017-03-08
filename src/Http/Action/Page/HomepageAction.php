@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Action\Page;
 
@@ -9,8 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class HomepageAction
 {
-
-
+    
     /**
      * @var Responder
      */
@@ -26,7 +25,7 @@ class HomepageAction
         ResponseInterface $response
     ): ResponseInterface {
         $responder = $this->responder;
-        
+
         return $responder($request, $response);
     }
 }

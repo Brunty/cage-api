@@ -26,10 +26,13 @@ class ErrorHandler
         $this->displayErrors = $displayErrors;
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Exception $exception): ResponseInterface
-    {
-        foreach($this->exceptions as $exceptionClass => $callback) {
-            if($exception instanceof $exceptionClass) {
+    public function __invoke(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        Exception $exception
+    ): ResponseInterface {
+        foreach ($this->exceptions as $exceptionClass => $callback) {
+            if ($exception instanceof $exceptionClass) {
                 return $callback($request, $response, $exception);
             }
         }

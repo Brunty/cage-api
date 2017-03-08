@@ -38,11 +38,11 @@ final class JsonFileCageRepository implements CageRepository
 
     public function getRandomCageImages(int $count = 5): ImageCollection
     {
-        /* move this to service class as it's basically validation? Don't like it in repo, oh well... */
+        /* move this elsewhere as it's basically validation? Don't like it in repo, oh well... */
         if ($count > self::MAX_BOMB_CAGES) {
             throw new OutOfRangeException(
                 sprintf(
-                    'YOU WANT %d?! THAT\'S TOO MANY CAGES. I CAN\'T HANDLE THAT! (Best I can do is %d...)',
+                    "YOU WANT %d?! THAT'S TOO MANY CAGES. I CAN'T HANDLE THAT! (Best I can do is %d...)",
                     $count,
                     self::MAX_BOMB_CAGES
                 )

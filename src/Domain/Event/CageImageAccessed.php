@@ -18,7 +18,7 @@ final class CageImageAccessed extends Event
         $this->image = $image;
     }
 
-    public function getImage()
+    public function getImage(): Image
     {
         return $this->image;
     }

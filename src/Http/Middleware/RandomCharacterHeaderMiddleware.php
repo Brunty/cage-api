@@ -14,8 +14,6 @@ class RandomCharacterHeaderMiddleware
         ResponseInterface $response,
         callable $next
     ): ResponseInterface {
-        $response = $next($request, $response);
-
         $headerString = '';
         $length = random_int(1, 1024);
 
@@ -23,6 +21,8 @@ class RandomCharacterHeaderMiddleware
             $headerString .= 'A';
         }
 
-        return $response->withHeader('X-Random-Chars', $headerString);
+        $response = $response->withHeader('X-Random-Chars', $headerString);
+
+        return $next($request, $response);
     }
 }
