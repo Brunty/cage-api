@@ -51,7 +51,7 @@ class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        if ( ! isset($offset)) {
+        if ($offset === null) {
             return $this->add($value);
         }
 
@@ -108,9 +108,9 @@ class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
         return false;
     }
 
-    public function contains($item): bool
+    public function contains($item, bool $strict = false): bool
     {
-        return in_array($item, $this->items);
+        return in_array($item, $this->items, $strict);
     }
 
     public function containsKey($key): bool

@@ -18,7 +18,7 @@ class AcceptHeaderMiddleware
     /**
      * @var array
      */
-    private $availableTypes = [];
+    private $availableTypes;
 
     public function __construct(AcceptHeaderNegotiator $negotiator, array $availableTypes)
     {

@@ -7,9 +7,4 @@ use App\Domain\Model\Image;
 
 class ImageCollection extends ArrayCollection
 {
-
-    /**
-     * @var Image[]
-     */
-    protected $items = [];
 }

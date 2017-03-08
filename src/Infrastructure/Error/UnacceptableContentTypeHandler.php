@@ -26,6 +26,7 @@ class UnacceptableContentTypeHandler
         Exception $exception
     ) {
         $response = $response->withStatus(StatusCode::NOT_ACCEPTABLE);
+        /** @var ResponseInterface $response */
         $response = $response->withHeader('Content-Type', 'application/json');
 
         $body = $response->getBody();
@@ -41,7 +42,6 @@ class UnacceptableContentTypeHandler
             )
         );
 
-        /** @var ResponseInterface $response */
         return $response->withBody($body);
     }
 }
