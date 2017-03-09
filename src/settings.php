@@ -1,7 +1,7 @@
 <?php
 return [
     'settings' => [
-        'displayErrorDetails' => getenv('APP_ENVIRONMENT') === 'prod' ? false : true, // set to false in production
+        'displayErrorDetails' => getenv('APP_ENVIRONMENT') !== 'prod', // set to false in production
 
         // Monolog settings
         'logger'              => [

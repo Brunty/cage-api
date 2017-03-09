@@ -75,9 +75,6 @@ $container['app.http.page.homepage'] = function (ContainerInterface $c) {
     return new HomepageAction($c->get('app.page.homepage_responder'));
 };
 
-/*
- * SINGLE IMAGES
- */
 $container['app.random_cage.single_image_responder'] = function (ContainerInterface $c) {
     return new SingleImageResponder(
         new SingleImageContentCreator,
@@ -95,10 +92,6 @@ $container['app.http.random_cage.single_image'] = function (ContainerInterface $
         $c->get('app.random_cage.single_image_responder')
     );
 };
-
-/*
- * MULTIPLE IMAGES
- */
 
 $container['app.random_cage.multiple_image_responder'] = function (ContainerInterface $c) {
     return new MultipleImageResponder(new MultipleImageContentCreator);
