@@ -54,13 +54,12 @@ final class JsonFileCageRepository implements CageRepository
 
         shuffle($cages);
 
-        return new ImageCollection(
-            array_map(
-                function ($string) {
-                    return new Image($string);
-                },
-                array_slice($cages, 0, $count)
-            )
+        $collection = new ImageCollection($cages);
+
+        return $collection->slice(0, $count)->map(
+            function ($string) {
+                return new Image($string);
+            }
         );
     }
 

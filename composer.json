@@ -28,10 +28,7 @@
     },
 	"scripts": {
         "start": "php -S localhost:8000 -t public",
-        "test": "phpunit",
-        "compile": [
-            "cp var/storage/cages.stub.json var/storage/cages.json"
-        ]
+        "test": "phpunit"
 	}
 
 }
