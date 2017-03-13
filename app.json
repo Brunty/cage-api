@@ -1,9 +1,0 @@
-{
-  "scripts": {
-    "dokku": {
-      "postdeploy": [
-        "cp var/storage/cages.stub.json var/storage/cages.json"
-      ]
-    }
-  }
-}
