@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Functional\Api;
 
@@ -10,10 +11,7 @@ class CageImageTest extends ApiTestCase
 
     /**
      * @test
-     * @dataProvider provider_for_a_single_random_cage_image_is_returned
-     *
-     * @param string $contentType
-     * @param string $assertion
+     * @dataProvider content_type_provider
      */
     public function a_single_random_cage_image_is_returned(string $contentType, string $assertion)
     {
@@ -23,25 +21,17 @@ class CageImageTest extends ApiTestCase
         $this->assertResponseHasKey('image');
     }
 
-    /**
-     * @return array
-     */
-    public function provider_for_a_single_random_cage_image_is_returned()
+    public function content_type_provider(): array
     {
         return [
-            ['application/xml', 'assertResponseWasXml'],
-            ['application/json', 'assertResponseWasJson'],
+            'XML'  => ['application/xml', 'assertResponseWasXml'],
+            'JSON' => ['application/json', 'assertResponseWasJson'],
         ];
     }
 
     /**
-     * @param string $contentType
-     * @param int    $number
-     *
-     * @param string $assertion
-     *
      * @test
-     * @dataProvider provider_for_multiple_random_cage_images_are_returned
+     * @dataProvider multiple_image_provider
      */
     public function multiple_random_cage_images_are_returned(string $contentType, int $number, string $assertion)
     {
@@ -54,7 +44,7 @@ class CageImageTest extends ApiTestCase
     /**
      * @return array
      */
-    public function provider_for_multiple_random_cage_images_are_returned()
+    public function multiple_image_provider(): array
     {
         return [
             ['application/json', 1, 'assertResponseWasJson'],

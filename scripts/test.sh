@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-docker-compose exec php vendor/bin/phpunit --coverage-html=build
+set -e
+docker-compose exec -T php vendor/bin/phpunit --coverage-html=build

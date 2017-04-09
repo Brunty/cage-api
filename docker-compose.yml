@@ -1,7 +1,6 @@
 version: '2'
 services:
     web:
-        container_name: cage_web_1
         build: docker/nginx
         working_dir: /app
         environment:
@@ -9,21 +8,13 @@ services:
             - VIRTUAL_PORT=80
         links:
             - php
-        volumes_from:
-            - app
+        volumes:
+            - .:/app
         depends_on:
             - php
 
-    app:
-        container_name: cage_app_1
-        image: busybox:latest
+    php:
+        build: docker/php-fpm
         working_dir: /app
         volumes:
             - .:/app
-
-    php:
-        container_name: cage_php_1
-        build: docker/php-fpm
-        working_dir: /app
-        volumes_from:
-            - app
