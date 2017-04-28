@@ -8,7 +8,7 @@ pipeline {
     }
     stage('PHPUnit') {
       steps {
-        sh './scripts/test.sh'
+        sh 'sudo ./scripts/test.sh'
       }
     }
   }
