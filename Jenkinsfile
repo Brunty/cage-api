@@ -16,15 +16,10 @@ pipeline {
         sh 'sudo ./scripts/test.sh'
       }
     }
-    stage('Deploy') {
-      when {
-        expression {
-          currentBuild.result == null || currentBuild.result == 'SUCCESS' || currentBuild.result == 'UNSTABLE'
-        }
-      }
-      steps {
-          sh 'sudo docker-compose down'
-      }
+  }
+  post {
+    always {
+      sh 'sudo docker-compose down'
     }
   }
 }
