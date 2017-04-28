@@ -8,7 +8,7 @@ pipeline {
     }
     stage('Composer Install') {
       steps {
-        sh 'sudo docker-compose exec -T php composer install'
+        sh 'sudo docker-compose exec -T php pwd && ls -lah && composer install'
       }
     }
     stage('PHPUnit') {
