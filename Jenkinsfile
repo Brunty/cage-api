@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Start docker') {
       steps {
-        sh 'docker-compose up -d'
+        sh 'sudo docker-compose up -d'
       }
     }
     stage('PHPUnit') {
