@@ -15,7 +15,8 @@
         "roave/security-advisories": "dev-master"
     },
     "require-dev": {
-        "brunty/api-testcase": "^1.0"
+        "brunty/api-testcase": "^1.0",
+        "ciaranmcnulty/behat-psr7extension": "dev-master"
     },
     "autoload": {
         "psr-4": {
