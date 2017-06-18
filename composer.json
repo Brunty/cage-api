@@ -16,7 +16,8 @@
     },
     "require-dev": {
         "brunty/api-testcase": "^1.0",
-        "ciaranmcnulty/behat-psr7extension": "dev-master"
+        "ciaranmcnulty/behat-psr7extension": "dev-master",
+        "brunty/cigar": "^0.2.2"
     },
     "autoload": {
         "psr-4": {

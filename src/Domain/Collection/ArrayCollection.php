@@ -7,7 +7,6 @@ use ArrayAccess;
 use Countable;
 use IteratorAggregate;
 use ArrayIterator;
-use Closure;
 
 class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
 {
@@ -81,12 +80,12 @@ class ArrayCollection implements Countable, IteratorAggregate, ArrayAccess
         return true;
     }
 
-    public function map(Closure $closure): ArrayCollection
+    public function map(callable $closure): ArrayCollection
     {
         return new static(array_map($closure, $this->items));
     }
 
-    public function filter(Closure $closure): ArrayCollection
+    public function filter(callable $closure): ArrayCollection
     {
         return new static(array_filter($this->items, $closure));
     }
