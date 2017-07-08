@@ -7,6 +7,8 @@ jobs:
      steps:
        - checkout
        - setup_remote_docker
+       - run: pwd
+       - run: ls -lah
        - run:
            name: Install Docker Compose
            command: |
@@ -16,3 +18,9 @@ jobs:
        - run: make build:dev
        - run: make install
        - run: make test
+       - deploy:
+           name: Maybe Deploy
+           command: |
+             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+               bash ./.circleci/deploy-dokku.sh
+             fi
