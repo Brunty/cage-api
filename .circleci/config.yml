@@ -1,23 +1,33 @@
 version: 2
 jobs:
-   build:
-     working_directory: ~/cage-api
-     docker:
-       - image: circleci/php:7.0
-     steps:
-       - checkout
-       - setup_remote_docker
-       - run: pwd
-       - run: ls -lah
-       - run: curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
-       - run: pip install --upgrade pip
-       - run: pip install docker-compose
-       - run: make build:dev
-       - run: make install
-       - run: make test
-       - deploy:
-           name: Maybe Deploy
-           command: |
-             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-               bash ./.circleci/deploy-dokku.sh
-             fi
+  build:
+    docker:
+      - image: php:7.0
+    working_directory: ~/application-name
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Update packages
+          command: apt-get update
+      - run:
+          name: Install basic Unix tools
+          command: apt-get install bzip2 -y
+      - run:
+          name: Install docker-compose
+          command: |
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.12.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+      - run:
+          name: Install necessary tools
+          command: apt-get install git zip unzip -y
+      - run:
+          name: Install Composer
+          command: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      - run:
+          name: Install PHP dependencies
+          command: make install
+      - run:
+          name: Run tests
+          command: make test
