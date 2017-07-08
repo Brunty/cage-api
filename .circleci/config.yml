@@ -1,8 +1,8 @@
 version: 2
 jobs:
   build:
-    docker:
-      - image: php:7.0
+    machine:
+      - image: circleci/php:7
     working_directory: /app
     steps:
       - checkout
