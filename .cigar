@@ -1,1 +1,6 @@
-http://cage.docker 200
+[
+  {
+    "url": "http://web",
+    "status": 200
+  }
+]

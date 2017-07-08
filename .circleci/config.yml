@@ -1,0 +1,17 @@
+version: 2
+jobs:
+   build:
+     working_directory: ~
+     docker:
+       - image: circleci/php:7.0
+     steps:
+       - checkout
+       - run:
+           name: Install Docker Compose
+           command: |
+             set -x
+             curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+             chmod +x /usr/local/bin/docker-compose
+       - run: docker-compose up -d
+       - run: composer install
+       - run: make test

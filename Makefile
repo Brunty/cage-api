@@ -1,5 +1,5 @@
 test:
-	./scripts/test.sh
+	./scripts/cigar.sh && ./scripts/phpunit.sh
 build\:prod:
 	git push dokku master
 build\:dev:
