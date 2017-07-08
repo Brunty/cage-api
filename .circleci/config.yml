@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: php:7.0
-    working_directory: ~/application-name
+    working_directory: /app
     steps:
       - checkout
       - setup_remote_docker
@@ -28,6 +28,9 @@ jobs:
       - run:
           name: Start containers
           command: make build:dev
+      - run:
+          name: Debug
+          command: pwd && ls -lah && docker-compose exec -T php pwd && docker-compose exec -T php ls -lah
       - run:
           name: Install PHP dependencies
           command: make install
