@@ -1,8 +1,6 @@
 test:
-	./scripts/cigar.sh && ./scripts/phpunit.sh
-build\:prod:
+	vendor/bin/cigar && vendor/bin/phpunit
+deploy:
 	git push dokku master
-build\:dev:
-	docker-compose up -d --build
 install:
-	docker-compose exec -T php composer install
+	composer install

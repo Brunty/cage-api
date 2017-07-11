@@ -14,26 +14,18 @@ jobs:
           name: Install basic Unix tools
           command: apt-get install bzip2 -y
       - run:
-          name: Install docker-compose
-          command: |
-            set -x
-            curl -L https://github.com/docker/compose/releases/download/1.12.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-            chmod +x /usr/local/bin/docker-compose
-      - run:
           name: Install necessary tools
           command: apt-get install git zip unzip -y
       - run:
           name: Install Composer
           command: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
       - run:
-          name: Start containers
-          command: make build:dev
-      - run:
-          name: Debug
-          command: pwd && ls -lah && docker-compose exec -T php pwd && docker-compose exec -T php ls -lah
-      - run:
           name: Install PHP dependencies
           command: make install
+      - run:
+          name: Run php webserver
+          command: php -S localhost:8888 -t ./public
+          background: true
       - run:
           name: Run tests
           command: make test
