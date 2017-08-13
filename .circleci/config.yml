@@ -1,28 +1,28 @@
 version: 2
 
 jobs:
-  build:
-    docker:
-      - image: notnoopci/php:7.1.5-browsers
-    working_directory: ~/app
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - composer-v1-{{ checksum "composer.json" }}
-            - composer-v1-
-      - run: composer install -n --prefer-dist
-      - run: cp ./var/storage/cages.stub.json ./var/storage/cages.json
-      - save_cache:
-          key: composer-v1-{{ checksum "composer.json" }}
-          paths:
-            - vendor
-      - run: ./vendor/bin/phpunit
-      - deploy:
-          name: Maybe Deploy
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              echo ${DOKKU_SSH_PUBLIC_KEY} >> ~/.ssh/known_hosts;
-              git remote add production dokku@dokku.mfyu.co.uk:cage;
-              git push production master
-            fi
+    build:
+        docker:
+            - image: notnoopci/php:7.1.5-browsers
+        working_directory: ~/app
+        steps:
+            - checkout
+            - restore_cache:
+                keys:
+                    - composer-v1-{{ checksum "composer.json" }}
+                    - composer-v1-
+            - run: composer install -n --prefer-dist
+            - run: cp ./var/storage/cages.stub.json ./var/storage/cages.json
+            - save_cache:
+                key: composer-v1-{{ checksum "composer.json" }}
+                paths:
+                    - vendor
+            - run: ./vendor/bin/phpunit
+            - deploy:
+                name: Maybe Deploy
+                command: |
+                    if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                      echo ${DOKKU_SSH_PUBLIC_KEY} >> ~/.ssh/known_hosts;
+                      git remote add production dokku@dokku.mfyu.co.uk:cage;
+                      git push production master
+                    fi
