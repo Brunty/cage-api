@@ -6,7 +6,6 @@ jobs:
     working_directory: /app
     steps:
       - checkout
-      - setup_remote_docker
       - run:
           name: Update packages
           command: apt-get update

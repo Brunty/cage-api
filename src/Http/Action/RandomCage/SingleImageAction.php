@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Action\RandomCage;
 
@@ -31,10 +31,6 @@ class SingleImageAction
         ServerRequestInterface $request,
         ResponseInterface $response
     ): ResponseInterface {
-        $image = $this->repository->getRandomCageImage();
-
-        $responder = $this->responder;
-
-        return $responder($request, $response, $image);
+        return ($this->responder)($request, $response, $this->repository->getRandomCageImage());
     }
 }

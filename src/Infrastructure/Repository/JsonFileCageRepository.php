@@ -14,17 +14,17 @@ final class JsonFileCageRepository implements CageRepository
     /**
      * @var array
      */
-    protected $cages = [];
+    private $cages = [];
 
     /**
      * @var string
      */
-    protected $storageFilePath;
+    private $storageFilePath;
 
     /**
      * @var array
      */
-    protected $cageQuotes = [];
+    private $cageQuotes = [];
 
     public function __construct(string $storageFilePath)
     {
