@@ -18,11 +18,11 @@ jobs:
           paths:
             - vendor
       - run: ./vendor/bin/phpunit
-      - deploy:
-          name: Maybe Deploy
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              echo ${DOKKU_SSH_PUBLIC_KEY} >> ~/.ssh/known_hosts;
-              git remote add production dokku@dokku.mfyu.co.uk:cage;
-              git push production master
-            fi
+#      - deploy:
+#          name: Maybe Deploy
+#          command: |
+#            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+#              echo ${DOKKU_SSH_PUBLIC_KEY} >> ~/.ssh/known_hosts;
+#              git remote add production dokku@dokku.mfyu.co.uk:cage;
+#              git push production master
+#            fi
