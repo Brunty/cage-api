@@ -7,7 +7,6 @@ jobs:
     working_directory: ~/app
     steps:
       - checkout
-      - run: composer self-update
       - restore_cache:
           keys:
             - composer-v1-{{ checksum "composer.json" }}
