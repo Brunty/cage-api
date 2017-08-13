@@ -18,9 +18,9 @@ jobs:
           paths:
             - vendor
       - run: ./vendor/bin/phpunit
-deployment:
-  production:
-    branch: master
-    commands:
-      - git remote add production dokku@dokku.mfyu.co.uk:cageapi
-      - git push production master
+      - deploy:
+          name: Maybe Deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git remote add production dokku@dokku.mfyu.co.uk:cageapi; git push production master
+            fi
