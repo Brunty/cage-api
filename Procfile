@@ -1,1 +1,1 @@
-web: vendor/bin/heroku-php-nginx -C docker/dokku/nginx.conf public
+web: vendor/bin/heroku-php-nginx -C .circleci/dokku/nginx.conf public
