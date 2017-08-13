@@ -6,7 +6,7 @@ return [
         // Monolog settings
         'logger'              => [
             'name'  => 'slim-app',
-            'path'  => 'php://stderr',
+            'path'  => getenv('APP_ENV') === 'prod' ? 'php://stderr' : __DIR__ . '/../var/logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
 
