@@ -18,6 +18,6 @@ class ContentCreatorTest extends AppTestCase
         $creator = new ContentCreator($this->container->get('view'));
         $response = new Response;
 
-        self::assertNotFalse(strpos($creator->createBody($response), 'CAGE ME'));
+        self::assertNotFalse(strpos($creator->createBody($response), 'CAGE!'));
     }
 }
