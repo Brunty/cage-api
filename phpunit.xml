@@ -27,7 +27,7 @@
     </filter>
     <php>
         <env name="api_base_url" value="http://localhost:8910"/>
-        <env name="APP_ENV" value="testing"/>
+        <env name="APP_ENV" value="test"/>
         <const name="WEB_SERVER_HOST" value="localhost" />
         <const name="WEB_SERVER_PORT" value="8910" />
         <const name="WEB_SERVER_DOCROOT" value="./public" />

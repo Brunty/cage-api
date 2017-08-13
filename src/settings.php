@@ -1,18 +1,17 @@
 <?php
 return [
     'settings' => [
-        'displayErrorDetails' => getenv('APP_ENV') !== 'prod', // set to false in production
+        'displayErrorDetails' => true,
 
-        // Monolog settings
         'logger'              => [
-            'name'  => 'slim-app',
-            'path'  => getenv('APP_ENV') === 'prod' ? 'php://stderr' : __DIR__ . '/../var/logs/app.log',
+            'name'  => 'cage.app',
+            'path'  => __DIR__ . '/../var/logs/' . APP_ENV . '.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
 
         'view' => [
             'templates' => __DIR__ . '/../src/Presentation/Views',
-            'cache'     => getenv('APP_ENV') === 'prod' ? __DIR__ . '/../var/storage/cache/templates' : false,
+            'cache'     => false,
         ],
 
         'storage' => [

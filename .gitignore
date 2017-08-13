@@ -5,3 +5,5 @@
 !/var/storage/README.md
 !/var/storage/*.stub.*
 /build/
+.env*
+!.env.example

@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Slim\App;
@@ -24,7 +25,18 @@ class AppTestCase extends TestCase
 
     public function setUp()
     {
-        $settings = require __DIR__ . '/../src/settings.php';
+        (new Dotenv(__DIR__ . '/../'))->load();
+
+        if (getenv('APP_ENV') === false) {
+            putenv('APP_ENV=dev');
+        }
+
+        if( ! defined('APP_ENV')) {
+            define('APP_ENV', getenv('APP_ENV'));
+        }
+
+        // Instantiate the app
+        $settings = require __DIR__ . '/../src/settings.' . APP_ENV . '.php';
         $app = new App($settings);
         require __DIR__ . '/../src/errors.php';
         require __DIR__ . '/../src/dependencies.php';
