@@ -2,10 +2,8 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-(new \Dotenv\Dotenv(__DIR__ . '/../'))->load();
-
-if (getenv('APP_ENV') === false) {
-    putenv('APP_ENV=dev');
+if ( ! getenv('APP_ENV')) {
+    (new \Dotenv\Dotenv(__DIR__ . '/../'))->load();
 }
 
 define('APP_ENV', getenv('APP_ENV'));
