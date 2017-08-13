@@ -16,7 +16,7 @@ $date = date('r');
 
 echo "{$date} - Web server started on {$host}:{$port} with PID {$pid}" . PHP_EOL;
 
-register_shutdown_function(function() use ($pid) {
+register_shutdown_function(function () use ($pid) {
     $date = date('r');
     echo "{$date} - Killing process with ID {$pid}" . PHP_EOL;
     exec('kill ' . $pid);

@@ -22,5 +22,7 @@ jobs:
           name: Maybe Deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              echo ${DOKKU_SSH_PUBLIC_KEY} >> ~/.ssh/known_hosts; git remote add production dokku@dokku.mfyu.co.uk:cageapi; git push production master
+              echo ${DOKKU_SSH_PUBLIC_KEY} >> ~/.ssh/known_hosts;
+              git remote add production dokku@dokku.mfyu.co.uk:cageapi;
+              git push production master
             fi
