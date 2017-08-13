@@ -1,15 +1,9 @@
 <?php
-$base = include __DIR__ . '/settings.php';
+$config = include __DIR__ . '/settings.php';
 
-return [
-    'settings' => [
-        'displayErrorDetails' => false,
-        'logger'              => [
-            'path'  => 'php://stderr',
-            'level' => \Monolog\Logger::ERROR,
-        ],
-        'view' => [
-            'cache'     => '/../var/storage/cache/templates',
-        ],
-    ],
-] + $base;
+$config['settings']['displayErrorDetails'] = false;
+$config['settings']['logger']['path'] = 'php://stderr';
+$config['settings']['logger']['level'] = \Monolog\Logger::ERROR;
+$config['settings']['view']['cache'] = __DIR__ . '/../var/storage/cache/templates';
+
+return $config;
