@@ -4,7 +4,7 @@
     "keywords": ["microframework", "rest", "router", "psr7"],
     "license": "MIT",
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "slim/slim": "^3.1",
         "monolog/monolog": "^1.17",
         "aura/accept": "^2.2",
