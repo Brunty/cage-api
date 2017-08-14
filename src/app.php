@@ -8,13 +8,13 @@ if ( ! getenv('APP_ENV')) {
 
 define('APP_ENV', getenv('APP_ENV'));
 
-// Instantiate the app
-$settings = require __DIR__ . '/settings.' . APP_ENV . '.php';
-$app = new \Slim\App($settings);
+$baseSettings = include __DIR__ . '/../config/settings.php';
+$envSettings = require __DIR__ . '/../config/' . APP_ENV . '/settings.php';
 
-require __DIR__ . '/errors.php';
-require __DIR__ . '/dependencies.php';
-require __DIR__ . '/middleware.php';
-require __DIR__ . '/routes.php';
+$settings = array_replace_recursive($baseSettings, $envSettings);
+
+// Instantiate the app
+$app = new \App\Kernel($settings, APP_ENV);
+$app->loadConfig(__DIR__ . '/../config/');
 
 return $app;

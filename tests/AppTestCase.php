@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Kernel;
 use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -12,6 +13,13 @@ use Slim\Http\Response;
 
 class AppTestCase extends TestCase
 {
+
+    /**
+     * Use middleware when running application?
+     *
+     * @var bool
+     */
+    protected $withMiddleware = true;
 
     /**
      * @var ContainerInterface
@@ -35,24 +43,17 @@ class AppTestCase extends TestCase
             define('APP_ENV', getenv('APP_ENV'));
         }
 
+        $baseSettings = include __DIR__ . '/../config/settings.php';
+        $envSettings = require __DIR__ . '/../config/' . APP_ENV . '/settings.php';
+        $settings = array_replace_recursive($baseSettings, $envSettings);
+
         // Instantiate the app
-        $settings = require __DIR__ . '/../src/settings.' . APP_ENV . '.php';
-        $app = new App($settings);
-        require __DIR__ . '/../src/errors.php';
-        require __DIR__ . '/../src/dependencies.php';
-        require __DIR__ . '/../src/middleware.php';
-        require __DIR__ . '/../src/routes.php';
+        $app = new Kernel($settings, APP_ENV);
+        $app->loadConfig(__DIR__ . '/../config/');
 
         $this->app = $app;
         $this->container = $this->app->getContainer();
     }
-
-    /**
-     * Use middleware when running application?
-     *
-     * @var bool
-     */
-    protected $withMiddleware = true;
 
     /**
      * Process the application given a request method and URI

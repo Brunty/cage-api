@@ -24,7 +24,7 @@ use Monolog\Processor\UidProcessor;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 
-$container = $app->getContainer();
+$container = $this->getContainer();
 
 $container['view'] = function (ContainerInterface $c) {
 

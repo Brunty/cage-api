@@ -1,7 +1,6 @@
 <?php
-$base = include __DIR__ . '/settings.php';
 
-return array_replace_recursive($base, [
+return [
     'settings' => [
         'displayErrorDetails' => false,
         'logger' => [
@@ -9,7 +8,7 @@ return array_replace_recursive($base, [
             'level' => \Monolog\Logger::ERROR,
         ],
         'view' => [
-            'cache' => __DIR__ . '/../var/storage/cache/templates',
+            'cache' => __DIR__ . '/../../var/storage/cache/' . APP_ENV . '/templates',
         ],
     ],
-]);
+];

@@ -2,4 +2,4 @@
 
 use App\Http\Middleware\RandomCharacterHeaderMiddleware;
 
-$app->add(new RandomCharacterHeaderMiddleware);
+$this->add(new RandomCharacterHeaderMiddleware);

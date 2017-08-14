@@ -3,26 +3,27 @@ return [
     'settings' => [
         'displayErrorDetails' => true,
 
-        'logger'              => [
-            'name'  => 'cage.app',
-            'path'  => __DIR__ . '/../var/logs/' . APP_ENV . '.log',
+        'logger' => [
+            'name' => 'cage.app',
+            'path' => __DIR__ . '/../var/logs/' . APP_ENV . '.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
 
         'view' => [
             'templates' => __DIR__ . '/../src/Presentation/Views',
-            'cache'     => false,
+            'cache' => false,
         ],
 
         'storage' => [
-            'cage_file_path' => __DIR__ . '/../var/storage/cages.json'
+            'cage_file_path' => __DIR__ . '/../var/storage/cages.json',
+            'cache_dir' => __DIR__ . '/../var/storage/cache/' . APP_ENV,
         ],
 
         'api' => [
             'content_types' => [
                 'application/json',
-                'application/xml'
-            ]
-        ]
+                'application/xml',
+            ],
+        ],
     ],
 ];

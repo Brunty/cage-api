@@ -5,7 +5,7 @@ use App\Infrastructure\Error\ErrorHandler;
 use App\Infrastructure\Error\UnacceptableContentTypeHandler;
 use Psr\Container\ContainerInterface;
 
-$container = $app->getContainer();
+$container = $this->getContainer();
 
 $container['errorHandler'] = function (ContainerInterface $c) {
     return new ErrorHandler(
