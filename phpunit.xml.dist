@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="./tests/bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false">
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory>./tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory>./tests/Integration</directory>
+        </testsuite>
+        <testsuite name="Functional Tests">
+            <directory>./tests/Functional</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/**/</directory>
+        </whitelist>
+    </filter>
+    <php>
+        <env name="api_base_url" value="http://localhost:8910"/>
+        <env name="APP_ENV" value="test"/>
+        <const name="WEB_SERVER_HOST" value="localhost" />
+        <const name="WEB_SERVER_PORT" value="8910" />
+        <const name="WEB_SERVER_DOCROOT" value="./public" />
+    </php>
+</phpunit>
