@@ -1,9 +1,15 @@
 <?php
-$config = include __DIR__ . '/settings.php';
+$base = include __DIR__ . '/settings.php';
 
-$config['settings']['displayErrorDetails'] = false;
-$config['settings']['logger']['path'] = 'php://stderr';
-$config['settings']['logger']['level'] = \Monolog\Logger::ERROR;
-$config['settings']['view']['cache'] = __DIR__ . '/../var/storage/cache/templates';
-
-return $config;
+return array_replace_recursive($base, [
+    'settings' => [
+        'displayErrorDetails' => false,
+        'logger' => [
+            'path' => 'php://stderr',
+            'level' => \Monolog\Logger::ERROR,
+        ],
+        'view' => [
+            'cache' => __DIR__ . '/../var/storage/cache/templates',
+        ],
+    ],
+]);
