@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Infrastructure\Repository;
 
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 use App\Infrastructure\Repository\JsonFileCageRepository;
 use PHPUnit\Framework\TestCase;
 

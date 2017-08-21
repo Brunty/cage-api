@@ -3,8 +3,9 @@
 namespace Tests\Unit\Http\Actions\RandomCage;
 
 use App\Domain\Collection\ImageCollection;
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 use App\Domain\Repository\CageRepository;
+use App\Domain\Value\Url;
 use App\Http\Action\RandomCage\MultipleImageAction;
 use App\Http\Responder\RandomCage\MultipleImage\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -16,7 +17,7 @@ class MultipleImageActionTest extends \PHPUnit\Framework\TestCase
     /** @test */
     public function it_invokes_the_responder_correctly()
     {
-        $images = new ImageCollection([new Image('imageurl'), new Image('2ndimageurl')]);
+        $images = new ImageCollection([new Image(new Url('http://site.com/image.png')), new Image(new Url('http://site.com/secondimage.png'))]);
         $repo = $this->prophesize(CageRepository::class);
         $repo->getRandomCageImages(2)->willReturn($images);
 

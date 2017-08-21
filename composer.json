@@ -1,8 +1,4 @@
 {
-    "name": "slim/slim-skeleton",
-    "description": "A Slim Framework skeleton application for rapid development",
-    "keywords": ["microframework", "rest", "router", "psr7"],
-    "license": "MIT",
     "require": {
         "php": ">=7.1",
         "slim/slim": "^3.1",
@@ -11,13 +7,16 @@
         "shrikeh/teapot": "^2.2",
         "league/event": "^2.1",
         "slim/twig-view": "^2.2",
-        "phpunit/phpunit": "^6.0",
         "roave/security-advisories": "dev-master"
     },
     "require-dev": {
         "brunty/api-testcase": "^1.0",
         "ciaranmcnulty/behat-psr7extension": "dev-master",
-        "vlucas/phpdotenv": "^2.4"
+        "vlucas/phpdotenv": "^2.4",
+        "phpunit/phpunit": "^6.3",
+        "kahlan/kahlan": "^3.1",
+        "behat/mink": "^1.7",
+        "behat/mink-goutte-driver": "^1.2"
     },
     "autoload": {
         "psr-4": {
@@ -26,8 +25,12 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
-        }
+            "Tests\\": "tests/",
+            "App\\Spec\\": "spec/"
+        },
+        "files": [
+            "spec/functions.php"
+        ]
     },
 	"scripts": {
         "compile": [

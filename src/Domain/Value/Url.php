@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace App\Domain\Model;
+namespace App\Domain\Value;
 
-final class Image
+class Url
 {
-
     /**
      * @var string
      */
@@ -12,6 +11,10 @@ final class Image
 
     public function __construct(string $url)
     {
+        if ( ! filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException("Not a valid URL: {$url}");
+        }
+
         $this->url = $url;
     }
 

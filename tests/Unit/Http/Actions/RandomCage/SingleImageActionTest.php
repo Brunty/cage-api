@@ -2,8 +2,9 @@
 
 namespace Tests\Unit\Http\Actions\RandomCage;
 
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 use App\Domain\Repository\CageRepository;
+use App\Domain\Value\Url;
 use App\Http\Action\RandomCage\SingleImageAction;
 use App\Http\Responder\RandomCage\SingleImage\Responder;
 use Psr\Http\Message\ResponseInterface;
@@ -15,7 +16,7 @@ class SingleImageActionTest extends \PHPUnit\Framework\TestCase
     /** @test */
     public function it_invokes_the_responder_correctly()
     {
-        $image = new Image('imageurl');
+        $image = new Image(new Url('http://site.tld/imageurl.png'));
         $repo = $this->prophesize(CageRepository::class);
         $repo->getRandomCageImage()->willReturn($image);
 

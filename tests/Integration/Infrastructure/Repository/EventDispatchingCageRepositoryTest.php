@@ -5,8 +5,9 @@ namespace Tests\Integration\Infrastructure\Repository;
 use App\Domain\Collection\ImageCollection;
 use App\Domain\Event\EventDispatcher;
 use App\Domain\Event\CageImageAccessed;
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 use App\Domain\Repository\CageRepository;
+use App\Domain\Value\Url;
 use App\Infrastructure\Repository\EventDispatchingCageRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +21,7 @@ class EventDispatchingCageRepositoryTest extends TestCase
     {
         /** @var \Prophecy\Prophecy\ObjectProphecy|CageRepository $repo */
         $repo = $this->prophesize(CageRepository::class);
-        $returnImage = new Image('image');
+        $returnImage = new Image(new Url('http://site.tld/image.png'));
         $repo->getRandomCageImage()->willReturn($returnImage);
         $dispatcher = $this->prophesize(EventDispatcher::class);
         $event = new CageImageAccessed($returnImage);
@@ -47,7 +48,7 @@ class EventDispatchingCageRepositoryTest extends TestCase
     {
         /** @var \Prophecy\Prophecy\ObjectProphecy|CageRepository $repo */
         $repo = $this->prophesize(CageRepository::class);
-        $returnImage = new Image('image');
+        $returnImage = new Image(new Url('http://site.tld/image.png'));
         $repo->getRandomCageImages($number)->willReturn(new ImageCollection([$returnImage]));
         $dispatcher = $this->prophesize(EventDispatcher::class);
 

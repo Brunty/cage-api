@@ -2,7 +2,8 @@
 
 namespace Tests\Unit\Presentation\RandomCage\SingleImage;
 
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
+use App\Domain\Value\Url;
 use App\Presentation\RandomCage\SingleImage\ContentCreator;
 
 class ContentCreatorTest extends \PHPUnit\Framework\TestCase
@@ -18,7 +19,7 @@ class ContentCreatorTest extends \PHPUnit\Framework\TestCase
     public function it_creates_output_based_on_a_type($type, $expectedOutput)
     {
         $creator = new ContentCreator;
-        $image = new Image('thisisanimagesourceurl');
+        $image = new Image(new Url('http://site.tld/thisisanimagesourceurl.png'));
 
         self::assertEquals($expectedOutput, $creator->createBody($type, $image));
     }
@@ -27,10 +28,10 @@ class ContentCreatorTest extends \PHPUnit\Framework\TestCase
     {
         $expectedXml = <<<XML
 <?xml version="1.0"?>
-<xml><image>thisisanimagesourceurl</image></xml>
+<xml><image>http://site.tld/thisisanimagesourceurl.png</image></xml>
 
 XML;
-        $expectedJson = '{"image":"thisisanimagesourceurl"}';
+        $expectedJson = '{"image":"http:\/\/site.tld\/thisisanimagesourceurl.png"}';
         return [
             ['application/xml', $expectedXml],
             ['application/json', $expectedJson],

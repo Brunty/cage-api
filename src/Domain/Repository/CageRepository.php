@@ -3,7 +3,7 @@
 namespace App\Domain\Repository;
 
 use App\Domain\Collection\ImageCollection;
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 
 interface CageRepository
 {

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace App\Http\Responder\RandomCage\SingleImage;
 
 use App\Presentation\RandomCage\SingleImage\Creator;
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

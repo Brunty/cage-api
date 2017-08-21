@@ -4,8 +4,9 @@ declare(strict_types = 1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Collection\ImageCollection;
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 use App\Domain\Repository\CageRepository;
+use App\Domain\Value\Url;
 use OutOfRangeException;
 
 final class JsonFileCageRepository implements CageRepository
@@ -20,11 +21,6 @@ final class JsonFileCageRepository implements CageRepository
      * @var string
      */
     private $storageFilePath;
-
-    /**
-     * @var array
-     */
-    private $cageQuotes = [];
 
     public function __construct(string $storageFilePath)
     {
@@ -58,7 +54,7 @@ final class JsonFileCageRepository implements CageRepository
 
         return $collection->slice(0, $count)->map(
             function ($string) {
-                return new Image($string);
+                return new Image(new Url($string));
             }
         );
     }

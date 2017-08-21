@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace App\Presentation\RandomCage\MultipleImage\Output;
 
 use App\Domain\Collection\ImageCollection;
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 
 class JsonOutput
 {

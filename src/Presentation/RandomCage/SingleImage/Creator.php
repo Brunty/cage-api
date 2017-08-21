@@ -2,7 +2,7 @@
 
 namespace App\Presentation\RandomCage\SingleImage;
 
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 
 interface Creator
 {

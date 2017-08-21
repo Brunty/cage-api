@@ -2,7 +2,7 @@
 
 namespace App\Domain\Event;
 
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 use League\Event\AbstractEvent as Event;
 
 final class CageImageAccessed extends Event

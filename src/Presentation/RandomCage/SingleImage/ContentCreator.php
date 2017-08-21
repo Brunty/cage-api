@@ -5,7 +5,7 @@ namespace App\Presentation\RandomCage\SingleImage;
 
 use App\Presentation\RandomCage\SingleImage\Output\JsonOutput;
 use App\Presentation\RandomCage\SingleImage\Output\XmlOutput;
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 
 final class ContentCreator implements Creator
 {

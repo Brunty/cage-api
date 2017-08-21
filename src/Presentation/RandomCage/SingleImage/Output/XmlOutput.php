@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Presentation\RandomCage\SingleImage\Output;
 
-use App\Domain\Model\Image;
+use App\Domain\Entity\Image;
 
 class XmlOutput
 {
