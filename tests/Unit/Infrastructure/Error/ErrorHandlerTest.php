@@ -8,6 +8,7 @@ use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
+use Psr\Log\LoggerInterface;
 
 class ErrorHandlerTest extends TestCase
 {
@@ -17,12 +18,13 @@ class ErrorHandlerTest extends TestCase
      */
     public function it_returns_the_response_with_500_and_no_body_if_display_errors_is_disabled()
     {
+        $logger = $this->prophesize(LoggerInterface::class);
         $request = $this->prophesize(ServerRequestInterface::class);
         $response = $this->prophesize(ResponseInterface::class);
         $response->withStatus(500)->willReturn($this->prophesize(ResponseInterface::class)->reveal());
 
         $exception = new \Exception;
-        $handler = new ErrorHandler(false);
+        $handler = new ErrorHandler($logger->reveal(), false);
 
         /** @var ResponseInterface $response */
         $response = $handler($request->reveal(), $response->reveal(), $exception);
@@ -35,6 +37,7 @@ class ErrorHandlerTest extends TestCase
      */
     public function it_returns_the_callback_of_an_exception_given_to_it_to_handle()
     {
+        $logger = $this->prophesize(LoggerInterface::class);
         $request = $this->prophesize(ServerRequestInterface::class);
         $response = $this->prophesize(ResponseInterface::class);
         $response->withStatus(500)->willReturn($this->prophesize(ResponseInterface::class)->reveal());
@@ -46,7 +49,7 @@ class ErrorHandlerTest extends TestCase
         };
 
         $exception = new \Exception;
-        $handler = new ErrorHandler(true, [\Exception::class => $callback]);
+        $handler = new ErrorHandler($logger->reveal(), true, [\Exception::class => $callback]);
 
         /** @var ResponseInterface $response */
         $response = $handler($request->reveal(), $response->reveal(), $exception);
@@ -59,6 +62,7 @@ class ErrorHandlerTest extends TestCase
      */
     public function it_returns_the_response_with_500_and_body_set_if_display_errors_is_enabled()
     {
+        $logger = $this->prophesize(LoggerInterface::class);
         $request = $this->prophesize(ServerRequestInterface::class);
         $providedResponse = $this->prophesize(ResponseInterface::class);
         $statusResponse = $this->prophesize(ResponseInterface::class);
@@ -73,7 +77,7 @@ class ErrorHandlerTest extends TestCase
 
         $bodyStream->write(Argument::containingString('[Code: 9001]: Exception Message'))->shouldBeCalled();
 
-        $handler = new ErrorHandler(true);
+        $handler = new ErrorHandler($logger->reveal(), true);
 
         /** @var ResponseInterface $handlerResponse */
         $handlerResponse = $handler($request->reveal(), $providedResponse->reveal(), new \Exception('Exception Message', 9001));

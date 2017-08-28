@@ -2,9 +2,10 @@
 
 namespace App\Infrastructure\Error;
 
-use Exception;
+use Throwable;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 use Teapot\StatusCode;
 
 class ErrorHandler
@@ -19,9 +20,14 @@ class ErrorHandler
      * @var bool
      */
     private $displayErrors;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
-    public function __construct(bool $displayErrors = false, array $exceptions = [])
+    public function __construct(LoggerInterface $logger, bool $displayErrors = false, array $exceptions = [])
     {
+        $this->logger = $logger;
         $this->exceptions = $exceptions;
         $this->displayErrors = $displayErrors;
     }
@@ -29,8 +35,11 @@ class ErrorHandler
     public function __invoke(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        Exception $exception
+        Throwable $exception
     ): ResponseInterface {
+
+        $this->logger->critical($exception->getTraceAsString());
+
         foreach ($this->exceptions as $exceptionClass => $callback) {
             if ($exception instanceof $exceptionClass) {
                 return $callback($request, $response, $exception);

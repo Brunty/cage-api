@@ -33,10 +33,10 @@ class AppTestCase extends TestCase
 
     public function setUp()
     {
-        (new Dotenv(__DIR__ . '/../'))->load();
+        (new Dotenv(__DIR__ . '/../', '.env.test'))->load();
 
         if (getenv('APP_ENV') === false) {
-            putenv('APP_ENV=dev');
+            putenv('APP_ENV=test');
         }
 
         if( ! defined('APP_ENV')) {

@@ -9,6 +9,18 @@ $container = $this->getContainer();
 
 $container['errorHandler'] = function (ContainerInterface $c) {
     return new ErrorHandler(
+        $c->get('logger'),
+        $c->get('settings')['displayErrorDetails'],
+        [
+            UnacceptableContentTypeException::class => new UnacceptableContentTypeHandler(
+                $c->get('settings')['api']['content_types']
+            )
+        ]
+    );
+};
+$container['phpErrorHandler'] = function (ContainerInterface $c) {
+    return new ErrorHandler(
+        $c->get('logger'),
         $c->get('settings')['displayErrorDetails'],
         [
             UnacceptableContentTypeException::class => new UnacceptableContentTypeHandler(

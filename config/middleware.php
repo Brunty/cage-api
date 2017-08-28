@@ -1,5 +1,5 @@
 <?php
 
-use App\Http\Middleware\RandomCharacterHeaderMiddleware;
+use App\Http\Middleware\SecurityHeaderMiddleware;
 
-$this->add(new RandomCharacterHeaderMiddleware);
+$this->add(new SecurityHeaderMiddleware);

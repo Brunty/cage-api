@@ -23,6 +23,7 @@ class Mink
      * @param string $sessionName
      *
      * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     public static function register(Kahlan $kahlan, DriverInterface $driver = null, string $sessionName = 'default')
     {
