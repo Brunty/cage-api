@@ -13,7 +13,7 @@ jobs:
                     - composer-v1-
             - run: composer install -n --prefer-dist
             - run: cp ./var/storage/cages.stub.json ./var/storage/cages.json
-            - run: echo >> "APP_ENV=test"
+            - run: echo "APP_ENV=test" >> .env.test
             - save_cache:
                 key: composer-v1-{{ checksum "composer.json" }}
                 paths:
