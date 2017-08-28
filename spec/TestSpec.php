@@ -1,7 +1,8 @@
 <?php
 
-use function App\Spec\browser;
-use function App\Spec\page;
+
+use function Brunty\Kahlan\Mink\browser;
+use function Brunty\Kahlan\Mink\page;
 
 describe('Test spec', function () {
     it('browses the web', function () {

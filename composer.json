@@ -7,7 +7,8 @@
         "shrikeh/teapot": "^2.2",
         "league/event": "^2.1",
         "slim/twig-view": "^2.2",
-        "roave/security-advisories": "dev-master"
+        "roave/security-advisories": "dev-master",
+        "brunty/kahlan-mink": "^0.1.0"
     },
     "require-dev": {
         "brunty/api-testcase": "^1.0",
@@ -27,10 +28,7 @@
         "psr-4": {
             "Tests\\": "tests/",
             "App\\Spec\\": "spec/"
-        },
-        "files": [
-            "spec/functions.php"
-        ]
+        }
     },
 	"scripts": {
         "compile": [

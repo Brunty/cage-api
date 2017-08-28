@@ -13,12 +13,12 @@ jobs:
                     - composer-v1-
             - run: composer install -n --prefer-dist
             - run: cp ./var/storage/cages.stub.json ./var/storage/cages.json
-            - run: echo "APP_ENV=test" >> .env.test
+            - run: echo "APP_ENV=test" > .env.test
+            - run: echo "APP_ENV=test" > .env
             - save_cache:
                 key: composer-v1-{{ checksum "composer.json" }}
                 paths:
                     - vendor
-            - run: echo "APP_ENV=test" > .env
             - run: ./vendor/bin/phpunit
             - run: ./vendor/bin/behat
             - run: ./vendor/bin/kahlan
