@@ -16,7 +16,7 @@ class JsonFileCageRepositoryTest extends TestCase
 
     protected function setUp()
     {
-        $filePath = __DIR__ . '/../Resources/cages.json';
+        $filePath = __DIR__ . '/../../../Resources/cages.json';
 
         $this->repo = new JsonFileCageRepository($filePath);
     }
