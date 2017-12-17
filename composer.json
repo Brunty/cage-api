@@ -1,14 +1,14 @@
 {
     "require": {
         "php": ">=7.1",
+        "ext-intl": "*",
         "slim/slim": "^3.1",
         "monolog/monolog": "^1.17",
         "aura/accept": "^2.2",
         "shrikeh/teapot": "^2.2",
         "league/event": "^2.1",
         "slim/twig-view": "^2.2",
-        "roave/security-advisories": "dev-master",
-        "brunty/kahlan-mink": "^0.1.0"
+        "roave/security-advisories": "dev-master"
     },
     "require-dev": {
         "brunty/api-testcase": "^1.0",
@@ -17,7 +17,8 @@
         "phpunit/phpunit": "^6.3",
         "kahlan/kahlan": "^3.1",
         "behat/mink": "^1.7",
-        "behat/mink-goutte-driver": "^1.2"
+        "behat/mink-goutte-driver": "^1.2",
+        "brunty/kahlan-mink": "^0.2.4"
     },
     "autoload": {
         "psr-4": {
